@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Sidebar from './Sidebar';
+import Footer from './Footer';
+import Countries from './pages/Countries';
+import Awards from './pages/Awards';
+import Genres from './pages/Genres';
+import Actors from './pages/Actors';
+import Comments from './pages/Comments';
+import DramaInput from './pages/DramaInput';
+import DramaApproved from './pages/DramaApproved';
+import ValidateDrama from './pages/ValidateDrama';
+import Users from './pages/Users';
+import './styles.css'; // Import the combined CSS
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Router>
+            <div className="App">
+                <Sidebar />
+                <div className="content">
+                    <Routes>
+                        <Route path="/countries" element={<Countries />} />
+                        <Route path="/awards" element={<Awards />} />
+                        <Route path="/genres" element={<Genres />} />
+                        <Route path="/actors" element={<Actors />} />
+                        <Route path="/comments" element={<Comments />} />
+                        <Route path="/input-drama" element={<DramaInput />} />
+                        <Route path="/validate-drama" element={<ValidateDrama />} />
+                        <Route path="/approved-drama" element={<DramaApproved />} />
+                        <Route path="/users" element={<Users />} />
+                    </Routes>
+                </div>
+                <Footer />
+            </div>
+        </Router>
+    );
 }
 
 export default App;
