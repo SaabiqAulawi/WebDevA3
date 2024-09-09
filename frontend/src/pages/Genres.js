@@ -1,52 +1,61 @@
-import React, { useState } from 'react';
-import '../styles.css';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Genres() {
-    const [genres, setGenres] = useState([
-        { id: 1, name: 'Romance' },
-        { id: 2, name: 'Drama' },
-        { id: 3, name: 'Action' },
-    ]);
-
+    const [genres, setGenres] = useState([]);
     const [newGenre, setNewGenre] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (newGenre.trim() !== '') {
-            setGenres([
-                ...genres,
-                { id: genres.length + 1, name: newGenre }
-            ]);
-            setNewGenre('');
+    useEffect(() => {
+        fetchGenres();
+    }, []);
+
+    const fetchGenres = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/genres');
+            setGenres(response.data);
+        } catch (error) {
+            console.error('Error fetching genres:', error);
         }
     };
 
-    const handleRename = (id, newName) => {
-        const updatedGenres = genres.map(genre =>
-            genre.id === id ? { ...genre, name: newName } : genre
-        );
-        setGenres(updatedGenres);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post('http://localhost:5000/api/genres', { name: newGenre });
+            setNewGenre('');
+            fetchGenres();
+        } catch (error) {
+            console.error('Error creating genre:', error);
+        }
     };
 
-    const handleDelete = (id) => {
-        const updatedGenres = genres.filter(genre => genre.id !== id);
-        setGenres(updatedGenres);
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`http://localhost:5000/api/genres/${id}`);
+            fetchGenres();
+        } catch (error) {
+            console.error('Error deleting genre:', error);
+        }
     };
 
     return (
-        <div className="main-content">
+        <div className="container">
             <h3>Genres</h3>
-            <form className="genre-form" onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Genre"
-                    value={newGenre}
-                    onChange={(e) => setNewGenre(e.target.value)}
-                />
-                <button type="submit" className="submit-btn">Submit</button>
+            <form className="mb-3" onSubmit={handleSubmit}>
+                <div className="input-group">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Genre"
+                        value={newGenre}
+                        onChange={(e) => setNewGenre(e.target.value)}
+                    />
+                    <button type="submit" className="btn btn-primary">Submit</button>
+                </div>
             </form>
 
-            <table className="genre-table">
+            <table className="table">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -55,19 +64,12 @@ function Genres() {
                     </tr>
                 </thead>
                 <tbody>
-                    {genres.map((genre) => (
+                    {genres.map((genre, index) => (
                         <tr key={genre.id}>
-                            <td>{genre.id}</td>
+                            <td>{index + 1}</td>
+                            <td>{genre.name}</td>
                             <td>
-                                <input
-                                    type="text"
-                                    value={genre.name}
-                                    onChange={(e) => handleRename(genre.id, e.target.value)}
-                                />
-                            </td>
-                            <td>
-                                <a href="#" onClick={() => handleRename(genre.id, genre.name)}>Rename</a> | 
-                                <a href="#" onClick={() => handleDelete(genre.id)}> Delete</a>
+                                <button className="btn btn-danger" onClick={() => handleDelete(genre.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}

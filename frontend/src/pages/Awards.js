@@ -1,84 +1,93 @@
-import React, { useState } from 'react';
-import '../styles.css';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Awards() {
-    const [awards, setAwards] = useState([
-        { id: 1, country: 'Japan', year: 2024, name: 'Japanese Drama Awards Spring 2024' },
-        { id: 2, country: 'Japan', year: 2024, name: 'Japanese Drama Awards Spring 2024' },
-        { id: 3, country: 'Korea', year: 2024, name: 'Japanese Drama Awards Spring 2024' },
-        // Tambahkan lebih banyak data sesuai kebutuhan
-    ]);
-
+    const [awards, setAwards] = useState([]);
     const [newAward, setNewAward] = useState({ country: '', year: '', name: '' });
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (newAward.country && newAward.year && newAward.name) {
-            setAwards([
-                ...awards,
-                { id: awards.length + 1, ...newAward }
-            ]);
-            setNewAward({ country: '', year: '', name: '' });
+    useEffect(() => {
+        fetchAwards();
+    }, []);
+
+    const fetchAwards = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/awards');
+            setAwards(response.data);
+        } catch (error) {
+            console.error('Error fetching awards:', error);
         }
     };
 
-    const handleEdit = (id, updatedAward) => {
-        const updatedAwards = awards.map(award =>
-            award.id === id ? { ...award, ...updatedAward } : award
-        );
-        setAwards(updatedAwards);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post('http://localhost:5000/api/awards', newAward);
+            setNewAward({ country: '', year: '', name: '' });
+            fetchAwards();
+        } catch (error) {
+            console.error('Error creating award:', error);
+        }
     };
 
-    const handleDelete = (id) => {
-        const updatedAwards = awards.filter(award => award.id !== id);
-        setAwards(updatedAwards);
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`http://localhost:5000/api/awards/${id}`);
+            fetchAwards();
+        } catch (error) {
+            console.error('Error deleting award:', error);
+        }
     };
 
     return (
-        <div className="main-content">
+        <div className="container">
             <h3>Awards</h3>
-            <form className="award-form" onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Country"
-                    value={newAward.country}
-                    onChange={(e) => setNewAward({ ...newAward, country: e.target.value })}
-                />
-                <input
-                    type="text"
-                    placeholder="Year"
-                    value={newAward.year}
-                    onChange={(e) => setNewAward({ ...newAward, year: e.target.value })}
-                />
-                <input
-                    type="text"
-                    placeholder="Awards"
-                    value={newAward.name}
-                    onChange={(e) => setNewAward({ ...newAward, name: e.target.value })}
-                />
-                <button type="submit" className="submit-btn">Submit</button>
+            <form className="mb-3" onSubmit={handleSubmit}>
+                <div className="input-group">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Country"
+                        value={newAward.country}
+                        onChange={(e) => setNewAward({ ...newAward, country: e.target.value })}
+                    />
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Year"
+                        value={newAward.year}
+                        onChange={(e) => setNewAward({ ...newAward, year: e.target.value })}
+                    />
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Award Name"
+                        value={newAward.name}
+                        onChange={(e) => setNewAward({ ...newAward, name: e.target.value })}
+                    />
+                    <button type="submit" className="btn btn-primary">Submit</button>
+                </div>
             </form>
 
-            <table className="award-table">
+            <table className="table">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Countries</th>
-                        <th>Years</th>
-                        <th>Awards</th>
+                        <th>Country</th>
+                        <th>Year</th>
+                        <th>Award Name</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {awards.map((award) => (
+                    {awards.map((award, index) => (
                         <tr key={award.id}>
-                            <td>{award.id}</td>
+                            <td>{index + 1}</td>
                             <td>{award.country}</td>
                             <td>{award.year}</td>
                             <td>{award.name}</td>
                             <td>
-                                <a href="#" onClick={() => handleEdit(award.id, { country: award.country, year: award.year, name: award.name })}>Edit</a> | 
-                                <a href="#" onClick={() => handleDelete(award.id)}> Delete</a>
+                                <button className="btn btn-danger" onClick={() => handleDelete(award.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}
