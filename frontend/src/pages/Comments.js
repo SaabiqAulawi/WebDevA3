@@ -1,84 +1,107 @@
-import React, { useState } from 'react';
-import '../styles.css';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Comments() {
-    const [comments, setComments] = useState([
-        { id: 1, username: 'Nara', rate: 5, drama: '[2024] Japan - Eye Love You', text: 'I love this drama. It taught me a lot about money and finance. Love is not everything. We need to face the reality too. Being stoic is the best.', status: 'Unapproved' },
-        { id: 2, username: 'Luffy', rate: 2, drama: '[2024] Japan - Eye Love You', text: 'Meh', status: 'Approved' },
-    ]);
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState({ username: '', rate: '', drama: '', text: '' });
 
-    const [filter, setFilter] = useState('None');
-    const [showLimit, setShowLimit] = useState(10);
+    useEffect(() => {
+        fetchComments();
+    }, []);
 
-    const handleApprove = (id) => {
-        const updatedComments = comments.map(comment =>
-            comment.id === id ? { ...comment, status: 'Approved' } : comment
-        );
-        setComments(updatedComments);
+    const fetchComments = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/comments');
+            setComments(response.data);
+        } catch (error) {
+            console.error('Error fetching comments:', error);
+        }
     };
 
-    const handleDelete = (id) => {
-        const updatedComments = comments.filter(comment => comment.id !== id);
-        setComments(updatedComments);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post('http://localhost:5000/api/comments', newComment);
+            setNewComment({ username: '', rate: '', drama: '', text: '' });
+            fetchComments();
+        } catch (error) {
+            console.error('Error creating comment:', error);
+        }
     };
 
-    const handleSelectAll = () => {
-        const updatedComments = comments.map(comment => ({ ...comment, status: 'Approved' }));
-        setComments(updatedComments);
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`http://localhost:5000/api/comments/${id}`);
+            fetchComments();
+        } catch (error) {
+            console.error('Error deleting comment:', error);
+        }
     };
 
     return (
-        <div className="main-content">
+        <div className="container">
             <h3>Comments</h3>
-            <div className="filter-section">
-                <label>
-                    Filtered by:
-                    <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-                        <option value="None">None</option>
-                        <option value="Approved">Approved</option>
-                        <option value="Unapproved">Unapproved</option>
-                    </select>
-                </label>
-                <label>
-                    Shows:
-                    <select value={showLimit} onChange={(e) => setShowLimit(e.target.value)}>
-                        <option value={10}>10</option>
-                        <option value={20}>20</option>
-                        <option value={50}>50</option>
-                    </select>
-                </label>
-            </div>
+            <form className="mb-3" onSubmit={handleSubmit}>
+                <div className="input-group">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Username"
+                        value={newComment.username}
+                        onChange={(e) => setNewComment({ ...newComment, username: e.target.value })}
+                    />
+                    <input
+                        type="number"
+                        className="form-control"
+                        placeholder="Rate"
+                        value={newComment.rate}
+                        onChange={(e) => setNewComment({ ...newComment, rate: e.target.value })}
+                    />
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Drama"
+                        value={newComment.drama}
+                        onChange={(e) => setNewComment({ ...newComment, drama: e.target.value })}
+                    />
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Comment"
+                        value={newComment.text}
+                        onChange={(e) => setNewComment({ ...newComment, text: e.target.value })}
+                    />
+                    <button type="submit" className="btn btn-primary">Submit</button>
+                </div>
+            </form>
 
-            <table className="comments-table">
+            <table className="table">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>#</th>
                         <th>Username</th>
                         <th>Rate</th>
                         <th>Drama</th>
-                        <th>Comments</th>
-                        <th>Status</th>
+                        <th>Comment</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {comments.slice(0, showLimit).map((comment) => (
-                        <tr key={comment.id} className={comment.status === 'Unapproved' ? 'unapproved' : ''}>
-                            <td><input type="checkbox" /></td>
+                    {comments.map((comment, index) => (
+                        <tr key={comment.id}>
+                            <td>{index + 1}</td>
                             <td>{comment.username}</td>
-                            <td>{'★'.repeat(comment.rate)}</td>
+                            <td>{comment.rate}</td>
                             <td>{comment.drama}</td>
                             <td>{comment.text}</td>
-                            <td>{comment.status}</td>
+                            <td>
+                                <button className="btn btn-danger" onClick={() => handleDelete(comment.id)}>Delete</button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-
-            <div className="actions">
-                <button className="approve-btn" onClick={handleSelectAll}>Select All</button>
-                <button className="approve-btn" onClick={() => comments.forEach(comment => handleApprove(comment.id))}>Approve</button>
-                <button className="delete-btn" onClick={() => comments.forEach(comment => handleDelete(comment.id))}>Delete</button>
-            </div>
         </div>
     );
 }
