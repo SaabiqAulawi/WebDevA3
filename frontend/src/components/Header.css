@@ -1,0 +1,36 @@
+/* Header.css */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #000000;  /* Latar belakang hitam */
+    color: rgb(0, 0, 0);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;  /* Warna teks putih */
+    margin: 0;
+}
+
+.header-right {
+    display: flex;
+    gap: 15px;
+}
+
+.header-button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #001f3f;  /* Warna biru navy */
+    color: #ffffff;  /* Warna teks putih */
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.header-button:hover {
+    background-color: #001a35;  /* Warna biru navy yang lebih gelap saat hover */
+}

@@ -1,0 +1,121 @@
+/* Latar belakang halaman */
+.auth-container {
+    background-color: #000000; /* Warna latar belakang hitam */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-box {
+    background-color: #f4f4f4;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+.auth-box h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333333;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333333;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.btn-primary {
+    background-color: #001f3f; /* Warna biru navy */
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-secondary {
+    background-color: #001f3f; /* Warna biru navy */
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    background-color: #001a35; /* Biru navy yang lebih gelap saat hover */
+}
+
+.toggle-button {
+    background: none;
+    border: none;
+    color: #001f3f; /* Warna biru navy */
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+.toggle-button:hover {
+    color: #001a35; /* Biru navy yang lebih gelap saat hover */
+}
+
+/* Header styling */
+.header {
+    background-color: #000000; /* Latar belakang hitam */
+    padding: 20px;
+    text-align: right;
+}
+
+.nav {
+    display: inline-block;
+}
+
+.nav-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    display: inline;
+    margin-left: 20px;
+}
+
+.nav-button {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #001f3f; /* Warna biru navy */
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: #001a35; /* Warna biru navy yang lebih gelap */
+}
+
