@@ -1,0 +1,87 @@
+/* MovieDetail.css */
+
+.movie-detail {
+    padding: 20px;
+}
+
+.movie-header {
+    background-color: #000000; /* Latar belakang hitam untuk header */
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+.logo:hover {
+    text-decoration: underline;
+}
+
+.movie-content {
+    padding: 20px 0;
+}
+
+.movie-header-info {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.movie-poster img {
+    border-radius: 10px;
+}
+
+.movie-info {
+    margin-left: 20px;
+    flex-grow: 1;
+}
+
+.actors-section, .trailer-section, .reviews-section, .add-review-section {
+    margin-top: 40px;
+}
+
+.actors-list {
+    display: flex;
+    gap: 10px;
+}
+
+.actor-card {
+    text-align: center;
+}
+
+.trailer-placeholder {
+    width: 100%;
+    height: 400px;
+    background-color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reviews-filter {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.review {
+    border-top: 1px solid #e0e0e0;
+    padding: 10px 0;
+}
+
+.add-review-section .input-group {
+    margin-bottom: 10px;
+}
+
+.submit-button {
+    background-color: #001f3f;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
