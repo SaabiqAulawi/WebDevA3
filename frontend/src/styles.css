@@ -1,0 +1,362 @@
+/* Sidebar.css */
+.sidebar {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    padding-top: 20px;
+}
+
+.sidebar h2 {
+    color: white;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 8px;
+    text-align: center;
+    margin-bottom: 10px;
+    background-color: #444;
+    border-radius: 4px;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar ul li a:hover {
+    background-color: #555;
+}
+
+/* DramaInput.css */
+.drama-input-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    max-width: 900px;
+    margin: 0 auto;
+    margin-left: 270px; /* Adjust based on sidebar width */
+}
+
+h3 {
+    margin-bottom: 20px;
+}
+
+.form-section {
+    margin-bottom: 15px;
+}
+
+.form-section label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-section input[type="text"],
+.form-section textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-section textarea {
+    resize: vertical;
+    height: 80px;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.checkbox-group label {
+    margin-right: 15px;
+}
+
+.submit-btn {
+    padding: 10px 20px;
+    background-color: #ff7f0e;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.submit-btn:hover {
+    background-color: #ff5722;
+}
+
+/* DramaApproved.css */
+.drama-approved-container {
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    margin-left: 270px; /* Adjust based on sidebar width */
+}
+
+.drama-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.approve-btn, .delete-btn {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.approve-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.drama-details {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.drama-image-placeholder {
+    width: 200px;
+    height: 300px;
+    background-color: #ccc;
+    margin-right: 20px;
+}
+
+.drama-info {
+    flex: 1;
+}
+
+.drama-info p {
+    margin: 10px 0;
+}
+
+.drama-actors {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.actor-placeholder {
+    width: 100px;
+    height: 100px;
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.drama-trailer {
+    display: flex;
+    justify-content: center;
+}
+
+.trailer-placeholder {
+    width: 400px;
+    height: 200px;
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ValidateDrama.css */
+.main-content {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    margin-left: 270px; /* Adjust based on sidebar width */
+}
+
+.filter-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.filter-section label {
+    margin-right: 20px;
+}
+
+.drama-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.drama-table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+.unapproved {
+    background-color: #ffe6e6;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Comments.css */
+.comments-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.comments-table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+.unapproved {
+    background-color: #ffe6e6;
+}
+
+.actions {
+    margin-top: 20px;
+}
+
+.approve-btn, .delete-btn {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.approve-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.approve-btn:hover {
+    background-color: #218838;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* Actors.css */
+.actor-form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.actor-form input[type="text"] {
+    padding: 10px;
+    margin-right: 10px;
+    flex: 1;
+}
+
+.actor-form input[type="file"] {
+    margin-right: 10px;
+}
+
+.actor-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.actor-table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+.actor-photo {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+/* Countries, Awards, Genres common styles */
+.actor-table, .genre-table, .country-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.actor-table, .genre-table, .country-table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+.submit-btn {
+    padding: 10px 20px;
+    background-color: #ff7f0e;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.submit-btn:hover {
+    background-color: #ff5722;
+}
+
+/* Footer.css */
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: calc(100% - 250px); /* Adjust based on sidebar width */
+    bottom: 0;
+    left: 250px; /* Adjust based on sidebar width */
+    z-index: 1000;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
