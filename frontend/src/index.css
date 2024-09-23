@@ -1,0 +1,128 @@
+/* Mengatur margin dan padding global menjadi 0 untuk menghilangkan jarak kosong */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Mengatur tinggi minimum body dan html untuk memenuhi layar */
+html, body {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #000000; /* Latar belakang hitam */
+  color: #ffffff; /* Warna teks putih */
+}
+
+/* Mengatur .App agar memenuhi layar penuh */
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Memastikan minimum height 100% viewport */
+}
+
+/* Mengatur header untuk menutupi seluruh lebar dan menyesuaikan padding */
+.header {
+  background-color: #000000; /* Warna latar belakang hitam */
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Mengatur nav untuk menempatkan tombol di kanan */
+.nav {
+  margin-left: auto;
+}
+
+/* Mengatur footer untuk selalu berada di bawah */
+.footer {
+  background-color: #001f3f;
+  color: #ffffff;
+  text-align: center;
+  padding: 20px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+/* Mengatur isi utama agar fleksibel dan mengisi sisa ruang */
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+/* Mengatur flexbox untuk mengatur layout elemen di dalam halaman detail */
+.movie-detail {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.movie-header, .actors-section, .trailer-section, .reviews-section, .add-review-section {
+  margin-bottom: 20px;
+}
+
+.movie-header {
+  display: flex;
+  gap: 20px;
+}
+
+.poster img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.movie-info {
+  flex-grow: 1;
+}
+
+.actors-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.trailer-placeholder {
+  width: 100%;
+  height: 400px;
+  background-color: #e0e0e0;
+  position: relative;
+  border-radius: 10px;
+}
+
+.play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.reviews-filter {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.review {
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 0;
+}
+
+.add-review-section form {
+  margin-top: 20px;
+}
+
+.add-review-section .input-group {
+  margin-bottom: 10px;
+}
+
+.btn-submit {
+  background-color: #001f3f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
