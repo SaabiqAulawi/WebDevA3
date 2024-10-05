@@ -1,5 +1,6 @@
 const Actor = require('../models/Actor');
 
+// Mendapatkan semua aktor
 exports.getAllActors = async (req, res) => {
   try {
     const actors = await Actor.findAll();
@@ -9,29 +10,32 @@ exports.getAllActors = async (req, res) => {
   }
 };
 
+// Membuat aktor baru
 exports.createActor = async (req, res) => {
   try {
-    const { country, name, birthDate, photo } = req.body;
-    const newActor = await Actor.create({ country, name, birthDate, photo });
+    const { name, birthDate, photoLink, country_id } = req.body; // Sesuaikan dengan atribut yang diperlukan
+    const newActor = await Actor.create({ name, birthDate, photoLink, country_id });
     res.json(newActor);
   } catch (error) {
     res.status(500).json({ error: 'Failed to create actor' });
   }
 };
 
+// Memperbarui aktor
 exports.updateActor = async (req, res) => {
   try {
     const { id } = req.params;
-    const { country, name, birthDate, photo } = req.body;
+    const { name, birthDate, photoLink, country_id } = req.body;
     const actor = await Actor.findByPk(id);
     if (!actor) return res.status(404).json({ error: 'Actor not found' });
-    await actor.update({ country, name, birthDate, photo });
+    await actor.update({ name, birthDate, photoLink, country_id });
     res.json(actor);
   } catch (error) {
     res.status(500).json({ error: 'Failed to update actor' });
   }
 };
 
+// Menghapus aktor
 exports.deleteActor = async (req, res) => {
   try {
     const { id } = req.params;

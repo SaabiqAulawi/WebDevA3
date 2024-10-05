@@ -1,5 +1,6 @@
 const Drama = require('../models/Drama');
 
+// Mendapatkan semua drama
 exports.getAllDramas = async (req, res) => {
   try {
     const dramas = await Drama.findAll();
@@ -9,31 +10,28 @@ exports.getAllDramas = async (req, res) => {
   }
 };
 
+// Membuat drama baru
 exports.createDrama = async (req, res) => {
   try {
     const {
       title,
       alternativeTitle,
       year,
-      country,
+      country_id,
       synopsis,
       availability,
-      genres,
-      actors,
       trailerLink,
-      award,
-    } = req.body;
+      award_name,
+    } = req.body; // Ambil data drama dari body request
     const newDrama = await Drama.create({
       title,
       alternativeTitle,
       year,
-      country,
+      country_id,
       synopsis,
       availability,
-      genres,
-      actors,
       trailerLink,
-      award,
+      award_name,
     });
     res.json(newDrama);
   } catch (error) {
@@ -41,10 +39,11 @@ exports.createDrama = async (req, res) => {
   }
 };
 
+// Memperbarui drama
 exports.updateDrama = async (req, res) => {
   try {
     const { id } = req.params;
-    const updatedData = req.body;
+    const updatedData = req.body; // Ambil data yang ingin diperbarui
     const drama = await Drama.findByPk(id);
     if (!drama) return res.status(404).json({ error: 'Drama not found' });
     await drama.update(updatedData);
@@ -54,6 +53,7 @@ exports.updateDrama = async (req, res) => {
   }
 };
 
+// Menghapus drama
 exports.deleteDrama = async (req, res) => {
   try {
     const { id } = req.params;

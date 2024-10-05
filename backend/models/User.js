@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
 const User = sequelize.define('User', {
-  name: {
+  username: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -15,6 +15,8 @@ const User = sequelize.define('User', {
     allowNull: false,
     defaultValue: 'User',
   },
+}, {
+  timestamps: true, // Mengaktifkan createdAt dan updatedAt
 });
 
 module.exports = User;

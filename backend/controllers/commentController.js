@@ -1,5 +1,6 @@
 const Comment = require('../models/Comment');
 
+// Mendapatkan semua komentar
 exports.getAllComments = async (req, res) => {
   try {
     const comments = await Comment.findAll();
@@ -9,29 +10,32 @@ exports.getAllComments = async (req, res) => {
   }
 };
 
+// Membuat komentar baru
 exports.createComment = async (req, res) => {
   try {
-    const { username, rate, drama, text } = req.body;
-    const newComment = await Comment.create({ username, rate, drama, text });
+    const { user_id, rate, drama_id, text } = req.body; // Pastikan untuk menggunakan user_id dan drama_id
+    const newComment = await Comment.create({ user_id, rate, drama_id, text });
     res.json(newComment);
   } catch (error) {
     res.status(500).json({ error: 'Failed to create comment' });
   }
 };
 
+// Memperbarui komentar
 exports.updateComment = async (req, res) => {
   try {
     const { id } = req.params;
-    const { username, rate, drama, text, status } = req.body;
+    const { user_id, rate, drama_id, text, status } = req.body;
     const comment = await Comment.findByPk(id);
     if (!comment) return res.status(404).json({ error: 'Comment not found' });
-    await comment.update({ username, rate, drama, text, status });
+    await comment.update({ user_id, rate, drama_id, text, status });
     res.json(comment);
   } catch (error) {
     res.status(500).json({ error: 'Failed to update comment' });
   }
 };
 
+// Menghapus komentar
 exports.deleteComment = async (req, res) => {
   try {
     const { id } = req.params;

@@ -1,5 +1,6 @@
 const Country = require('../models/Country');
 
+// Mendapatkan semua negara
 exports.getAllCountries = async (req, res) => {
   try {
     const countries = await Country.findAll();
@@ -9,29 +10,32 @@ exports.getAllCountries = async (req, res) => {
   }
 };
 
+// Membuat negara baru
 exports.createCountry = async (req, res) => {
   try {
-    const { name, isDefault } = req.body;
-    const newCountry = await Country.create({ name, isDefault });
+    const { name } = req.body; // Ambil nama negara dari body request
+    const newCountry = await Country.create({ name });
     res.json(newCountry);
   } catch (error) {
     res.status(500).json({ error: 'Failed to create country' });
   }
 };
 
+// Memperbarui negara
 exports.updateCountry = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, isDefault } = req.body;
+    const { name } = req.body; // Ambil nama negara dari body request
     const country = await Country.findByPk(id);
     if (!country) return res.status(404).json({ error: 'Country not found' });
-    await country.update({ name, isDefault });
+    await country.update({ name });
     res.json(country);
   } catch (error) {
     res.status(500).json({ error: 'Failed to update country' });
   }
 };
 
+// Menghapus negara
 exports.deleteCountry = async (req, res) => {
   try {
     const { id } = req.params;

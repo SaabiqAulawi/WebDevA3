@@ -2,10 +2,6 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
 const Actor = sequelize.define('Actor', {
-  country: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -14,10 +10,20 @@ const Actor = sequelize.define('Actor', {
     type: DataTypes.DATEONLY,
     allowNull: false,
   },
-  photo: {
+  photoLink: {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  country_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'countries', // Nama tabel referensi
+      key: 'id', // Nama kolom referensi
+    },
+  },
+}, {
+  timestamps: true, // Mengaktifkan createdAt dan updatedAt
 });
 
 module.exports = Actor;

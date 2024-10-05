@@ -14,9 +14,13 @@ const Drama = sequelize.define('Drama', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  country: {
-    type: DataTypes.STRING,
+  country_id: {
+    type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: 'countries', // Nama tabel referensi
+      key: 'id', // Nama kolom referensi
+    },
   },
   synopsis: {
     type: DataTypes.TEXT,
@@ -26,26 +30,16 @@ const Drama = sequelize.define('Drama', {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  genres: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
-    allowNull: false,
-  },
-  actors: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
-    allowNull: false,
-  },
   trailerLink: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  award: {
+  award_name: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  status: {
-    type: DataTypes.STRING,
-    defaultValue: 'Unapproved',
-  },
+}, {
+  timestamps: true, // Mengaktifkan createdAt dan updatedAt
 });
 
 module.exports = Drama;
