@@ -3,15 +3,15 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
 import Countries from './pages/Countries';
-import Awards from './pages/Awards';
 import Genres from './pages/Genres';
 import Actors from './pages/Actors';
 import Comments from './pages/Comments';
 import DramaInput from './pages/DramaInput';
 import DramaApproved from './pages/DramaApproved';
 import ValidateDrama from './pages/ValidateDrama';
+import HomePage from './pages/HomePage';
 import Users from './pages/Users';
-import './styles.css'; // Import the combined CSS
+import './styles.css'; // Pastikan untuk mengimpor CSS
 
 function App() {
     return (
@@ -21,7 +21,6 @@ function App() {
                 <div className="content">
                     <Routes>
                         <Route path="/countries" element={<Countries />} />
-                        <Route path="/awards" element={<Awards />} />
                         <Route path="/genres" element={<Genres />} />
                         <Route path="/actors" element={<Actors />} />
                         <Route path="/comments" element={<Comments />} />

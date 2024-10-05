@@ -9,7 +9,7 @@ function Sidebar() {
             <ul>
                 <li><Link to="/dramas">Dramas</Link></li>
                 <li><Link to="/countries">Countries</Link></li>
-                <li><Link to="/awards">Awards</Link></li>
+                {/* Hapus link untuk Awards */}
                 <li><Link to="/genres">Genres</Link></li>
                 <li><Link to="/actors">Actors</Link></li>
                 <li><Link to="/comments">Comments</Link></li>

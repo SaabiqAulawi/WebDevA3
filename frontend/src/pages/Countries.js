@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles.css';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Pastikan Bootstrap diimpor
 
 function Countries() {
     const [countries, setCountries] = useState([
@@ -21,32 +21,23 @@ function Countries() {
         }
     };
 
-    const handleRename = (id, newName) => {
-        const updatedCountries = countries.map(country =>
-            country.id === id ? { ...country, name: newName } : country
-        );
-        setCountries(updatedCountries);
-    };
-
-    const handleDelete = (id) => {
-        const updatedCountries = countries.filter(country => country.id !== id);
-        setCountries(updatedCountries);
-    };
-
     return (
-        <div className="main-content">
-            <h3>Country</h3>
-            <form className="country-form" onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Country"
-                    value={newCountry}
-                    onChange={(e) => setNewCountry(e.target.value)}
-                />
-                <button type="submit" className="submit-btn">Submit</button>
+        <div className="container mt-4"> {/* Tambahkan margin top untuk pemisahan */}
+            <h3>Countries</h3>
+            <form onSubmit={handleSubmit} className="mb-3">
+                <div className="input-group">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Country"
+                        value={newCountry}
+                        onChange={(e) => setNewCountry(e.target.value)}
+                    />
+                    <button type="submit" className="btn btn-primary">Submit</button>
+                </div>
             </form>
 
-            <table className="country-table">
+            <table className="table table-bordered">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -59,16 +50,19 @@ function Countries() {
                         <tr key={country.id}>
                             <td>{country.id}</td>
                             <td>
-                                <input
-                                    type="text"
-                                    value={country.name}
-                                    onChange={(e) => handleRename(country.id, e.target.value)}
-                                />
-                                {country.isDefault && <span className="default-tag">Default</span>}
+                                <div className="d-flex align-items-center">
+                                    <input
+                                        type="text"
+                                        className="form-control me-2"
+                                        value={country.name}
+                                        onChange={(e) => handleRename(country.id, e.target.value)}
+                                    />
+                                    {country.isDefault && <span className="text-success ms-2">Default</span>} {/* Tambahkan margin ke kiri */}
+                                </div>
                             </td>
                             <td>
-                                <a href="#" onClick={() => handleRename(country.id, country.name)}>Rename</a> | 
-                                <a href="#" onClick={() => handleDelete(country.id)}> Delete</a>
+                                <button className="btn btn-secondary me-2" onClick={() => handleRename(country.id, country.name)}>Rename</button>
+                                <button className="btn btn-danger" onClick={() => handleDelete(country.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}
