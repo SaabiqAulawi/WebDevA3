@@ -36,13 +36,6 @@ const SearchResults = ({ searchQuery }) => {
         <div className="search-results-page">
             <Header />  {}
             <div className="content-wrapper">
-                <div className="sidebar">
-                    <ul>
-                        <li>Japan</li>
-                        <li>Korea</li>
-                        <li>China</li>
-                    </ul>
-                </div>
 
                 <div className="main-content">
                     <h2>Searched/Tagged with "{searchQuery}"</h2>
@@ -51,6 +44,9 @@ const SearchResults = ({ searchQuery }) => {
                         <span>Filtered by:</span>
                         <select>
                             <option>Year</option>
+                        </select>
+                        <select>
+                            <option>Country</option>
                         </select>
                         <select>
                             <option>Genre</option>

@@ -2,6 +2,7 @@
 
 .home-page {
     padding: 20px;
+    box-sizing: border-box;
 }
 
 .home-header {
@@ -20,6 +21,8 @@
 
 .content-wrapper {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .sidebar {
@@ -29,6 +32,7 @@
     color: rgb(255, 255, 255);
     width: 200px;
     margin-right: 20px;
+    box-sizing: border-box;
 }
 
 .sidebar h3 {
@@ -49,7 +53,8 @@
 }
 
 .main-content {
-    flex-grow: 1;
+    flex-grow: 1;  
+    padding: 0;
 }
 
 .filter-bar {
@@ -66,6 +71,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    justify-content: flex-start;  /* Memastikan film ditampilkan dari kiri ke kanan */
 }
 
 .movie-card {
@@ -73,13 +79,14 @@
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: calc(25% - 20px);
+    width: calc(25% - 20px);  /* Setiap kartu film memiliki lebar 25% layar dengan jarak 20px antar elemen */
     box-sizing: border-box;
     text-align: center;
+    transition: transform 0.3s ease; /* Animasi hover */
 }
 
 .movie-card img {
-    max-width: 100%;
+    max-width: 100%;  /* Agar poster tidak melebihi ukuran kontainer */
     border-radius: 10px;
 }
 
@@ -91,4 +98,22 @@
 .movie-card p {
     margin: 5px 0;
     font-size: 14px;
+}
+
+/* Hover effect */
+.movie-card:hover {
+    transform: scale(1.05);  /* Membuat sedikit zoom pada hover */
+}
+
+/* Responsif pada layar kecil */
+@media (max-width: 768px) {
+    .movie-card {
+        width: calc(50% - 10px);  /* Setiap kartu film akan tampil 2 per baris pada layar kecil */
+    }
+}
+
+@media (max-width: 480px) {
+    .movie-card {
+        width: 100%;  /* Pada layar yang lebih kecil, tampilkan satu kartu per baris */
+    }
 }

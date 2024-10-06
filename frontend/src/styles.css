@@ -3,17 +3,25 @@
     width: 250px;
     height: 100%;
     position: fixed;
-    float: left;
     top: 0;
     left: 0;
     background-color: #333;
     padding-top: 20px;
+    box-sizing: border-box;
+    z-index: 1000;  /* Pastikan sidebar berada di atas konten */
 }
 
+/* Default: Ketika sidebar ada */
 .content {
-    margin-left: 250px; /* Memberikan ruang untuk sidebar */
-    padding: 20px; /* Memberikan padding pada konten */
+    margin-left: 250px; /* Menyediakan ruang untuk sidebar */
 }
+
+/* Ketika sidebar tidak ada */
+.App.no-sidebar .content {
+    margin-left: 0; /* Hapus margin kiri */
+    width: 100%; /* Konten menggunakan seluruh lebar */
+}
+
 
 .sidebar h2 {
     color: white;
@@ -355,14 +363,16 @@ th, td {
     text-align: center;
     padding: 10px 0;
     position: fixed;
-    width: calc(100% - 250px); /* Adjust based on sidebar width */
+    width: 100%; /* Buat lebar footer penuh */
     bottom: 0;
-    left: 250px; /* Adjust based on sidebar width */
-    z-index: 1000;
+    z-index: 999;  /* Pastikan footer berada di atas konten */
 }
 
-.footer p {
-    margin: 0;
-    font-size: 14px;
+/* Optional: Responsiveness */
+@media (max-width: 768px) {
+    .footer {
+        width: 100%;  /* Pastikan footer memenuhi layar di perangkat kecil */
+        left: 0;
+    }
 }
 

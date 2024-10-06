@@ -1,11 +1,10 @@
 import React from 'react';
 import Header from '../components/Header';
-import MovieCard from '../components/MovieCard'; 
+import MovieCard from '../components/MovieCard';
 import './HomePage.css';
 
 const HomePage = () => {
     const movies = [
-        // Data dummy film
         {
             id: 1,
             title: "Title of the drama 1 that makes two lines",
@@ -29,10 +28,12 @@ const HomePage = () => {
 
     return (
         <div className="home-page">
-            <Header />  {}
-            
+            <Header />
+
             <div className="content-wrapper">
+                {/* Main Content */}
                 <div className="main-content">
+                    {/* Filter Bar */}
                     <div className="filter-bar">
                         <span>Filtered by:</span>
                         <select>
@@ -60,6 +61,7 @@ const HomePage = () => {
                         <button>Submit</button>
                     </div>
 
+                    {/* Movie List */}
                     <div className="movie-list">
                         {movies.map(movie => (
                             <MovieCard key={movie.id} movie={movie} />

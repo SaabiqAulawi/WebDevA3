@@ -7,7 +7,7 @@
     padding: 10px 5%;
     background-color: #000000;  /* Latar belakang hitam */
     color: #ffffff;  /* Warna teks putih */
-    width: 100vw;  /* Lebar penuh layar */
+    width: 100%;  /* Lebar penuh layar */
     box-sizing: border-box;
 }
 
