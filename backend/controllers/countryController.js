@@ -15,7 +15,7 @@ exports.createCountry = async (req, res) => {
   try {
     const { name } = req.body; // Ambil nama negara dari body request
     const newCountry = await Country.create({ name });
-    res.json(newCountry);
+    res.status(201).json(newCountry); // Menggunakan status 201 untuk created
   } catch (error) {
     res.status(500).json({ error: 'Failed to create country' });
   }
