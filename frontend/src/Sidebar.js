@@ -5,9 +5,9 @@ import './styles.css';
 function Sidebar() {
     return (
         <div className="sidebar">
-            <h2>DramaKu</h2>
+            <h2>BiLk21</h2>
             <ul>
-                <li><Link to="/dramas">Dramas</Link></li>
+                <li><Link to="/">Drama</Link></li>
                 <li><Link to="/countries">Countries</Link></li>
                 {/* Hapus link untuk Awards */}
                 <li><Link to="/genres">Genres</Link></li>

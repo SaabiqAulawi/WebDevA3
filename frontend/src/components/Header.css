@@ -4,16 +4,30 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 10px 5%;
     background-color: #000000;  /* Latar belakang hitam */
-    color: rgb(0, 0, 0);
+    color: #ffffff;  /* Warna teks putih */
+    width: 100vw;  /* Lebar penuh layar */
+    box-sizing: border-box;
 }
 
 .logo {
-    font-size: 24px;
+    font-size: 32px;
     font-weight: bold;
     color: #ffffff;  /* Warna teks putih */
-    margin: 0;
+    text-decoration: none;
+}
+
+.header-middle {
+    flex-grow: 2;  /* Membuat search bar mengambil ruang yang tersedia */
+    margin: 0 20px;  /* Jarak antara search bar dan logo/tombol */
+}
+
+.search-bar {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
 .header-right {
@@ -25,7 +39,7 @@
     padding: 10px 20px;
     border-radius: 5px;
     background-color: #001f3f;  /* Warna biru navy */
-    color: #ffffff;  /* Warna teks putih */
+    color: #ffffff;
     text-decoration: none;
     font-size: 16px;
     transition: background-color 0.3s ease;
@@ -33,4 +47,20 @@
 
 .header-button:hover {
     background-color: #001a35;  /* Warna biru navy yang lebih gelap saat hover */
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header-middle {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
 }

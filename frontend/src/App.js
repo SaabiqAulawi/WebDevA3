@@ -22,7 +22,7 @@ function LayoutWithSidebar({ children }) {
     const location = useLocation();
 
     // Hide sidebar for specific routes
-    const hideSidebarOn = ['/login', '/registration', '/movie', '/search'];
+    const hideSidebarOn = ['/login', '/registration', '/movie', '/search', '/'];
     const shouldHideSidebar = hideSidebarOn.some(path => location.pathname.startsWith(path));
 
     return (

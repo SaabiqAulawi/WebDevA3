@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
-import MovieCard from '../components/MovieCard';  // Pastikan jalur ini sesuai dengan struktur proyek Anda
-import './HomePage.css';  // Pastikan untuk mengimpor CSS yang sesuai
+import MovieCard from '../components/MovieCard'; 
+import './HomePage.css';
 
 const HomePage = () => {
     const movies = [
@@ -32,18 +32,12 @@ const HomePage = () => {
             <Header />  {}
             
             <div className="content-wrapper">
-                <div className="sidebar">
-                    <h3>Categories</h3>
-                    <ul>
-                        <li>Japan</li>
-                        <li>Korea</li>
-                        <li>China</li>
-                    </ul>
-                </div>
-                
                 <div className="main-content">
                     <div className="filter-bar">
                         <span>Filtered by:</span>
+                        <select>
+                            <option>Country</option>
+                        </select>
                         <select>
                             <option>Year</option>
                         </select>

@@ -8,10 +8,12 @@ const Header = () => {
             <div className="header-left">
                 <Link to="/" className="logo">BiLk21</Link>
             </div>
+            <div className="header-middle">
+                <input type="text" placeholder="Search Drama" className="search-bar" />
+            </div>
             <div className="header-right">
                 <Link to="/login" className="header-button">Login</Link>
                 <Link to="/registration" className="header-button">Signup</Link>
-                <input type="text" placeholder="Search Drama" className="search-bar" />
             </div>
         </header>
     );

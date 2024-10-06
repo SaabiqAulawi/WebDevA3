@@ -5,9 +5,6 @@ import './Auth.css';
 const Login = () => {
     return (
         <div className="auth-container">
-            <div className="header-right">
-                <Link to="/" className="logo">BiLk21</Link>
-            </div>
             <div className="auth-box">
                 <h2>Login</h2>
                 <form>
