@@ -30,14 +30,10 @@ function LayoutWithSidebar({ children }) {
         '/'
     ];
 
-    // Periksa apakah salah satu path ada di URL saat ini
-    const shouldHideSidebar = hideSidebarOn.some(path => {
-        // Untuk rute dinamis seperti /movie/:movieId atau /search/:searchTerm, periksa apakah URL sesuai
-        if (location.pathname.endsWith('/movie') || location.pathname.endsWith('/search')) {
-            return true;
-        }
-        return location.pathname === path; // Untuk rute statis seperti /login atau /
-    });
+    const shouldHideSidebar = hideSidebarOn.some(path => 
+        location.pathname === path || location.pathname.startsWith(path + '/')
+      );
+
     return (
         <div className={`App ${shouldHideSidebar ? 'no-sidebar' : ''}`}>
             {/* Render Sidebar hanya jika tidak disembunyikan */}
