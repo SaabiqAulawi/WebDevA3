@@ -9,7 +9,6 @@ function Sidebar() {
             <ul>
                 <li><Link to="/">Drama</Link></li>
                 <li><Link to="/countries">Countries</Link></li>
-                {/* Hapus link untuk Awards */}
                 <li><Link to="/genres">Genres</Link></li>
                 <li><Link to="/actors">Actors</Link></li>
                 <li><Link to="/comments">Comments</Link></li>

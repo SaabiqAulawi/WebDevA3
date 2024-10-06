@@ -23,8 +23,8 @@ function LayoutWithSidebar({ children }) {
 
     // Hide sidebar for specific routes
     const hideSidebarOn = ['/login', '/registration', '/movie', '/search', '/'];
-    const shouldHideSidebar = hideSidebarOn.some(path => location.pathname.startsWith(path));
-
+    const shouldHideSidebar = hideSidebarOn.some(path => location.pathname.endsWith(path));
+    console.log(shouldHideSidebar);
     return (
         <div className="App">
             {/* Render Sidebar only when it's not hidden */}
