@@ -4,6 +4,7 @@ const FilterBar = () => {
     return (
         <div className="filter-bar">
             <label>Filtered by:</label>
+            <select><option>Country</option></select>
             <select><option>Year</option></select>
             <select><option>Genre</option></select>
             <select><option>Status</option></select>

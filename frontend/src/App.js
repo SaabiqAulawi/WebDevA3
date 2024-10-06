@@ -21,13 +21,27 @@ import './styles.css';
 function LayoutWithSidebar({ children }) {
     const location = useLocation();
 
-    // Hide sidebar for specific routes
-    const hideSidebarOn = ['/login', '/registration', '/movie', '/search', '/'];
-    const shouldHideSidebar = hideSidebarOn.some(path => location.pathname.startsWith(path));
+    // Tentukan halaman yang tidak perlu sidebar
+    const hideSidebarOn = [
+        '/login',
+        '/registration',
+        '/movie',  // Matches dynamic movieId route
+        '/search',  // Matches dynamic searchTerm route
+        '/'
+    ];
+
+    // Periksa apakah salah satu path ada di URL saat ini
+    const shouldHideSidebar = hideSidebarOn.some(path => {
+        // Untuk rute dinamis seperti /movie/:movieId atau /search/:searchTerm, periksa apakah URL sesuai
+        if (location.pathname.startsWith('/movie') || location.pathname.startsWith('/search')) {
+            return true;
+        }
+        return location.pathname === path; // Untuk rute statis seperti /login atau /
+    });
 
     return (
-        <div className="App">
-            {/* Render Sidebar only when it's not hidden */}
+        <div className={`App ${shouldHideSidebar ? 'no-sidebar' : ''}`}>
+            {/* Render Sidebar hanya jika tidak disembunyikan */}
             {!shouldHideSidebar && <Sidebar />}
             <div className="content">{children}</div>
             <Footer />
