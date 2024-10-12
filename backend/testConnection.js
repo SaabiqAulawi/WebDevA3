@@ -1,5 +1,6 @@
 const sequelize = require('./config/database'); // Sesuaikan dengan path file Anda
 const Country = require('./models/Country'); // Sesuaikan dengan path file Anda
+require('dotenv').config();
 
 // Menguji koneksi ke database dan sinkronisasi model
 sequelize.authenticate()
