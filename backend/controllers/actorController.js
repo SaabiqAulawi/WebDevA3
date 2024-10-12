@@ -3,7 +3,9 @@ const Actor = require('../models/Actor');
 // Mendapatkan semua aktor
 exports.getAllActors = async (req, res) => {
   try {
-    const actors = await Actor.findAll();
+    const actors = await Actor.findAll({
+      attributes: ['id', 'name', 'birthdate']
+    });
     res.json(actors);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch actors' });

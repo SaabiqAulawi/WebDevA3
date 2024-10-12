@@ -7,7 +7,7 @@ const Country = sequelize.define('Country', {
     allowNull: false,
   },
 }, {
-  timestamps: true, // Mengaktifkan createdAt dan updatedAt
+  timestamps: false, // Mengaktifkan createdAt dan updatedAt
 });
 
 module.exports = Country;

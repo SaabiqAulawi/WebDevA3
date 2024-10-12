@@ -28,7 +28,7 @@ const Comment = sequelize.define('Comment', {
     defaultValue: 'Unapproved',
   },
 }, {
-  timestamps: true, // Mengaktifkan createdAt dan updatedAt
+  timestamps: false, // Mengaktifkan createdAt dan updatedAt
 });
 
 module.exports = Comment;

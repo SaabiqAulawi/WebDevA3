@@ -1,28 +1,48 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Pastikan Bootstrap diimpor
 
 function Countries() {
-    const [countries, setCountries] = useState([
-        { id: 1, name: 'Japan', isDefault: true },
-        { id: 2, name: 'Korea', isDefault: false },
-        { id: 3, name: 'China', isDefault: false },
-    ]);
-
+    const [countries, setCountries] = useState([]);
     const [newCountry, setNewCountry] = useState('');
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        fetchCountries();
+    }, []);
+
+    const fetchCountries = async () => {
+        const response = await fetch('http://localhost:5000/api/countries');
+        const data = await response.json();
+        setCountries(data);
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (newCountry.trim() !== '') {
-            setCountries([
-                ...countries,
-                { id: countries.length + 1, name: newCountry, isDefault: false },
-            ]);
-            setNewCountry('');
+            const response = await fetch('http://localhost:5000/api/countries', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: newCountry }),
+            });
+            if (response.ok) {
+                fetchCountries();
+                setNewCountry('');
+            }
+        }
+    };
+
+    const handleDelete = async (id) => {
+        const response = await fetch(`http://localhost:5000/api/countries/${id}`, {
+            method: 'DELETE',
+        });
+        if (response.ok) {
+            fetchCountries();
         }
     };
 
     return (
-        <div className="container mt-4"> {/* Tambahkan margin top untuk pemisahan */}
+        <div className="container mt-4">
             <h3>Countries</h3>
             <form onSubmit={handleSubmit} className="mb-3">
                 <div className="input-group">
@@ -49,20 +69,13 @@ function Countries() {
                     {countries.map((country) => (
                         <tr key={country.id}>
                             <td>{country.id}</td>
+                            <td>{country.name}</td>
                             <td>
-                                <div className="d-flex align-items-center">
-                                    <input
-                                        type="text"
-                                        className="form-control me-2"
-                                        value={country.name}
-                                        onChange={(e) => handleRename(country.id, e.target.value)}
-                                    />
-                                    {country.isDefault && <span className="text-success ms-2">Default</span>} {/* Tambahkan margin ke kiri */}
-                                </div>
-                            </td>
-                            <td>
-                                <button className="btn btn-secondary me-2" onClick={() => handleRename(country.id, country.name)}>Rename</button>
-                                <button className="btn btn-danger" onClick={() => handleDelete(country.id)}>Delete</button>
+                                <button 
+                                    className="btn btn-danger" 
+                                    onClick={() => handleDelete(country.id)}>
+                                    Delete
+                                </button>
                             </td>
                         </tr>
                     ))}

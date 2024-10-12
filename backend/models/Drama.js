@@ -39,7 +39,7 @@ const Drama = sequelize.define('Drama', {
     allowNull: true,
   },
 }, {
-  timestamps: true, // Mengaktifkan createdAt dan updatedAt
+  timestamps: false, // Mengaktifkan createdAt dan updatedAt
 });
 
 module.exports = Drama;

@@ -1,16 +1,18 @@
-const sequelize = require('./config/database'); // Sesuaikan dengan path file Anda
-const Country = require('./models/Country'); // Sesuaikan dengan path file Anda
-require('dotenv').config();
+const sequelize = require('./config/database');
 
-// Menguji koneksi ke database dan sinkronisasi model
-sequelize.authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-    return Country.sync(); // Untuk membuat tabel jika belum ada
-  })
-  .then(() => {
-    console.log('Country model has been synchronized with the database.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
+async function testConnection() {
+    try {
+        await sequelize.authenticate();
+        console.log('Connection has been established successfully.');
+
+        // Menjalankan query untuk menguji
+        await sequelize.query("SELECT NOW();");
+        console.log('Query executed successfully.');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+    } finally {
+        await sequelize.close();
+    }
+}
+
+testConnection();

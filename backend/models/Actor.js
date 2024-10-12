@@ -6,11 +6,11 @@ const Actor = sequelize.define('Actor', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  birthDate: {
+  birthdate: {
     type: DataTypes.DATEONLY,
     allowNull: false,
   },
-  photoLink: {
+  photolink: {
     type: DataTypes.STRING,
     allowNull: true,
   },
@@ -18,12 +18,12 @@ const Actor = sequelize.define('Actor', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'countries', // Nama tabel referensi
+      model: 'Countries', // Nama tabel referensi
       key: 'id', // Nama kolom referensi
     },
   },
 }, {
-  timestamps: true, // Mengaktifkan createdAt dan updatedAt
+  timestamps: false, // Mengaktifkan createdAt dan updatedAt
 });
 
 module.exports = Actor;
