@@ -3,7 +3,9 @@ const Drama = require('../models/Drama');
 // Mendapatkan semua drama
 exports.getAllDramas = async (req, res) => {
   try {
-    const dramas = await Drama.findAll();
+    const dramas = await Drama.findAll({
+      attributes: ['title', 'alternativetitle', 'year', 'award_name', 'synopsis', 'availability']
+    });
     res.json(dramas);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch dramas' });

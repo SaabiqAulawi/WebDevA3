@@ -6,7 +6,7 @@ const Drama = sequelize.define('Drama', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  alternativeTitle: {
+  alternativetitle: {
     type: DataTypes.STRING,
     allowNull: true,
   },

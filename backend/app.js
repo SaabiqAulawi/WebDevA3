@@ -6,6 +6,9 @@ const commentRoutes = require('./routes/commentRoutes');
 const dramaRoutes = require('./routes/dramaRoutes');
 const userRoutes = require('./routes/userRoutes');
 const genreRoutes = require('./routes/genreRoutes');
+const dramaGenreRoutes = require('./routes/dramaGenreRoutes');
+const dramaActorRoutes = require('./routes/dramaActorRoutes');
+
 require('dotenv').config();
 const sequelize = require('./config/database');
 
@@ -24,6 +27,8 @@ app.use('/api/comments', commentRoutes);
 app.use('/api/dramas', dramaRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/genres', genreRoutes);
+app.use('/api/drama-genres', dramaGenreRoutes);
+app.use('/api/drama-actors', dramaActorRoutes);
 
 
 // Menjalankan server
