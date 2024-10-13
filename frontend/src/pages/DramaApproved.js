@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function DramaApproved() {
     const [dramas, setDramas] = useState([]);
+    const [editingDrama, setEditingDrama] = useState(null); // State untuk drama yang sedang diedit
+    const [formData, setFormData] = useState({ title: '', alternativetitle: '', synopsis: '' }); // Data untuk form
 
     useEffect(() => {
         fetchDramas();
@@ -24,6 +26,21 @@ function DramaApproved() {
             fetchDramas(); // Refresh the drama list after deletion
         } catch (error) {
             console.error('Error deleting drama:', error);
+        }
+    };
+
+    const handleEdit = (drama) => {
+        setEditingDrama(drama);
+        setFormData({ title: drama.title, alternativetitle: drama.alternativetitle, synopsis: drama.synopsis });
+    };
+
+    const handleUpdate = async (id) => {
+        try {
+            await axios.put(`http://localhost:5000/api/dramas/${id}`, formData);
+            setEditingDrama(null); // Reset editing state
+            fetchDramas(); // Refresh the drama list after update
+        } catch (error) {
+            console.error('Error updating drama:', error);
         }
     };
 
@@ -56,12 +73,27 @@ function DramaApproved() {
                             <td>{drama.availability}</td>
                             <td>{drama.award_name}</td>
                             <td>
+                                <button className="btn btn-warning" onClick={() => handleEdit(drama)}>Edit</button>
                                 <button className="btn btn-danger" onClick={() => handleDelete(drama.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+
+            {/* Form Edit Drama */}
+            {editingDrama && (
+                <div className="mt-4">
+                    <h4>Edit Drama</h4>
+                    <form onSubmit={(e) => { e.preventDefault(); handleUpdate(editingDrama.id); }}>
+                        <input type="text" className="form-control mb-2" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} placeholder="Title" required />
+                        <input type="text" className="form-control mb-2" value={formData.alternativetitle} onChange={(e) => setFormData({ ...formData, alternativetitle: e.target.value })} placeholder="Alternative Title" />
+                        <textarea className="form-control mb-2" value={formData.synopsis} onChange={(e) => setFormData({ ...formData, synopsis: e.target.value })} placeholder="Synopsis" required></textarea>
+                        <button type="submit" className="btn btn-primary">Update Drama</button>
+                        <button type="button" className="btn btn-secondary" onClick={() => setEditingDrama(null)}>Cancel</button>
+                    </form>
+                </div>
+            )}
         </div>
     );
 }
