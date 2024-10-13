@@ -4,10 +4,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Actors() {
     const [actors, setActors] = useState([]);
-    const [newActor, setNewActor] = useState({ country: '', name: '', birthDate: '', photo: null });
+    const [countries, setCountries] = useState([]); // State untuk menyimpan daftar negara
+    const [newActor, setNewActor] = useState({
+        name: '',
+        birthDate: '',
+        photoLink: '',
+        country_id: ''
+    });
 
     useEffect(() => {
         fetchActors();
+        fetchCountries(); // Panggil fetchCountries saat komponen di-render
     }, []);
 
     const fetchActors = async () => {
@@ -19,11 +26,25 @@ function Actors() {
         }
     };
 
+    const fetchCountries = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/countries'); // Ambil daftar negara dari API
+            setCountries(response.data); // Simpan data negara ke dalam state
+        } catch (error) {
+            console.error('Error fetching countries:', error);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/api/actors', newActor);
-            setNewActor({ country: '', name: '', birthDate: '', photo: null });
+            await axios.post('http://localhost:5000/api/actors', {
+                name: newActor.name,
+                birthDate: newActor.birthDate,
+                photoLink: newActor.photoLink,
+                country_id: newActor.country_id
+            });
+            setNewActor({ name: '', birthDate: '', photoLink: '', country_id: '' });
             fetchActors();
         } catch (error) {
             console.error('Error creating actor:', error);
@@ -43,27 +64,40 @@ function Actors() {
         <div className="container">
             <h3>Actors</h3>
             <form className="mb-3" onSubmit={handleSubmit}>
-                <div className="input-group">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Country"
-                        value={newActor.country}
-                        onChange={(e) => setNewActor({ ...newActor, country: e.target.value })}
-                    />
+                <div className="input-group mb-2">
                     <input
                         type="text"
                         className="form-control"
                         placeholder="Name"
                         value={newActor.name}
                         onChange={(e) => setNewActor({ ...newActor, name: e.target.value })}
+                        required
                     />
                     <input
                         type="date"
                         className="form-control"
                         value={newActor.birthDate}
                         onChange={(e) => setNewActor({ ...newActor, birthDate: e.target.value })}
+                        required
                     />
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Photo Link"
+                        value={newActor.photoLink}
+                        onChange={(e) => setNewActor({ ...newActor, photoLink: e.target.value })}
+                    />
+                    <select
+                        className="form-control"
+                        value={newActor.country_id}
+                        onChange={(e) => setNewActor({ ...newActor, country_id: e.target.value })}
+                        required
+                    >
+                        <option value="">Select Country</option>
+                        {countries.map((country) => (
+                            <option key={country.id} value={country.id}>{country.name}</option>
+                        ))}
+                    </select>
                     <button type="submit" className="btn btn-primary">Submit</button>
                 </div>
             </form>
@@ -72,7 +106,6 @@ function Actors() {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Country</th>
                         <th>Name</th>
                         <th>Birth Date</th>
                         <th>Actions</th>
@@ -82,7 +115,6 @@ function Actors() {
                     {actors.map((actor, index) => (
                         <tr key={actor.id}>
                             <td>{index + 1}</td>
-                            <td>{actor.country}</td>
                             <td>{actor.name}</td>
                             <td>{actor.birthDate}</td>
                             <td>

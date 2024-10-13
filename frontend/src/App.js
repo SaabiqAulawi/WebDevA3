@@ -8,7 +8,6 @@ import Actors from './pages/Actors';
 import Comments from './pages/Comments';
 import DramaInput from './pages/DramaInput';
 import DramaApproved from './pages/DramaApproved';
-import ValidateDrama from './pages/ValidateDrama';
 import HomePage from './pages/HomePage';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
@@ -127,14 +126,6 @@ function App() {
                             element={
                                 <LayoutWithSidebar>
                                     <DramaInput />
-                                </LayoutWithSidebar>
-                            }
-                        />
-                        <Route
-                            path="/validate-drama"
-                            element={
-                                <LayoutWithSidebar>
-                                    <ValidateDrama />
                                 </LayoutWithSidebar>
                             }
                         />
