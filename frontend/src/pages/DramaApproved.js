@@ -4,8 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function DramaApproved() {
     const [dramas, setDramas] = useState([]);
-    const [genres, setGenres] = useState({});
-    const [actors, setActors] = useState({});
 
     useEffect(() => {
         fetchDramas();
@@ -13,39 +11,17 @@ function DramaApproved() {
 
     const fetchDramas = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/dramas');
+            const response = await axios.get('http://localhost:5000/api/dramas/with-details');
             setDramas(response.data);
-            response.data.forEach(drama => {
-                fetchGenres(drama.id);
-                fetchActors(drama.id);
-            });
         } catch (error) {
             console.error('Error fetching dramas:', error);
-        }
-    };
-
-    const fetchGenres = async (dramaId) => {
-        try {
-            const response = await axios.get(`http://localhost:5000/api/drama-genres/drama/${dramaId}`);
-            setGenres(prev => ({ ...prev, [dramaId]: response.data }));
-        } catch (error) {
-            console.error('Error fetching genres:', error);
-        }
-    };
-
-    const fetchActors = async (dramaId) => {
-        try {
-            const response = await axios.get(`http://localhost:5000/api/drama-actors/drama/${dramaId}`);
-            setActors(prev => ({ ...prev, [dramaId]: response.data }));
-        } catch (error) {
-            console.error('Error fetching actors:', error);
         }
     };
 
     const handleDelete = async (id) => {
         try {
             await axios.delete(`http://localhost:5000/api/dramas/${id}`);
-            fetchDramas();
+            fetchDramas(); // Refresh the drama list after deletion
         } catch (error) {
             console.error('Error deleting drama:', error);
         }
@@ -73,8 +49,8 @@ function DramaApproved() {
                         <tr key={drama.id}>
                             <td>{drama.title}</td>
                             <td>{drama.alternativetitle}</td>
-                            <td>{genres[drama.id]?.map(genre => genre.name).join(', ')}</td>
-                            <td>{actors[drama.id]?.map(actor => actor.name).join(', ')}</td>
+                            <td>{drama.genres?.map(genre => genre.name).join(', ') || 'N/A'}</td>
+                            <td>{drama.actors?.map(actor => actor.name).join(', ') || 'N/A'}</td>
                             <td>{drama.synopsis}</td>
                             <td>{drama.year}</td>
                             <td>{drama.availability}</td>

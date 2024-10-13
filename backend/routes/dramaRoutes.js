@@ -2,7 +2,11 @@ const express = require('express');
 const router = express.Router();
 const dramaController = require('../controllers/dramaController');
 
-router.get('/', dramaController.getAllDramas);
+// Remove or comment out this line if getAllDramas is not defined
+// router.get('/', dramaController.getAllDramas);
+
+// Use the getAllDramasWithDetails function instead
+router.get('/with-details', dramaController.getAllDramasWithDetails);
 router.post('/', dramaController.createDrama);
 router.put('/:id', dramaController.updateDrama);
 router.delete('/:id', dramaController.deleteDrama);

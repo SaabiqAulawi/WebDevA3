@@ -1,16 +1,53 @@
 const Drama = require('../models/Drama');
+const Genre = require('../models/Genre');
+const Actor = require('../models/Actor');
+const DramaGenre = require('../models/DramaGenre');
+const DramaActor = require('../models/DramaActor');
+// const { QueryTypes } = require('sequelize'); // Pastikan untuk mengimpor QueryTypes
 
-// Mendapatkan semua drama
-exports.getAllDramas = async (req, res) => {
+// Mendapatkan drama dengan aktor dan genre
+// Mengambil semua drama dengan detail
+exports.getAllDramasWithDetails = async (req, res) => {
   try {
+    console.log('Fetching dramas with details...');
     const dramas = await Drama.findAll({
-      attributes: ['title', 'alternativetitle', 'year', 'award_name', 'synopsis', 'availability']
+      include: [
+        {
+          model: Genre,
+          through: DramaGenre,
+          as: 'genres'
+        },
+        {
+          model: Actor,
+          through: DramaActor,
+          as: 'actors'
+        }
+      ]
     });
+    
+    console.log('Dramas fetched:', JSON.stringify(dramas, null, 2));
+    
+    if (dramas.length === 0) {
+      return res.status(404).json({ message: 'No dramas found' });
+    }
+    
     res.json(dramas);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch dramas' });
+    console.error('Error fetching dramas with details:', error);
+    res.status(500).json({ error: 'Failed to fetch dramas', details: error.message });
   }
 };
+// Mendapatkan semua drama
+// exports.getAllDramas = async (req, res) => {
+//   try {
+//     const dramas = await Drama.findAll({
+//       attributes: ['title', 'alternativetitle', 'year', 'award_name', 'synopsis', 'availability']
+//     });
+//     res.json(dramas);
+//   } catch (error) {
+//     res.status(500).json({ error: 'Failed to fetch dramas' });
+//   }
+// };
 
 // Membuat drama baru
 exports.createDrama = async (req, res) => {

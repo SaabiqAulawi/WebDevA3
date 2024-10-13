@@ -16,10 +16,16 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const cors = require('cors'); // Import cors
+
 // Middleware
 app.use(cors()); 
 app.use(bodyParser.json());
 
+Object.values(sequelize.models).forEach(model => {
+  if (model.associate) {
+    model.associate(sequelize.models);
+  }
+});
 // Menggunakan routes
 app.use('/api/countries', countryRoutes);
 app.use('/api/actors', actorRoutes);

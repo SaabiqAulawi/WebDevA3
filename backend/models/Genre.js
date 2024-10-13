@@ -10,4 +10,13 @@ const Genre = sequelize.define('Genre', {
   timestamps: false, // Mengaktifkan createdAt dan updatedAt
 });
 
+Genre.associate = (models) => {
+  Genre.belongsToMany(models.Drama, { 
+    through: models.DramaGenre, 
+    as: 'dramas',
+    foreignKey: 'genre_id',
+    otherKey: 'drama_id'
+  });
+};
+
 module.exports = Genre;

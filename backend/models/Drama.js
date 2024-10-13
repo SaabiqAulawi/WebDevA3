@@ -30,7 +30,7 @@ const Drama = sequelize.define('Drama', {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  trailerLink: {
+  trailerlink: {
     type: DataTypes.STRING,
     allowNull: true,
   },
@@ -41,5 +41,20 @@ const Drama = sequelize.define('Drama', {
 }, {
   timestamps: false, // Mengaktifkan createdAt dan updatedAt
 });
+
+Drama.associate = (models) => {
+  Drama.belongsToMany(models.Genre, { 
+    through: models.DramaGenre, 
+    as: 'genres',
+    foreignKey: 'drama_id',
+    otherKey: 'genre_id'  // Pastikan ini sesuai dengan nama kolom di DramaGenres
+  });
+  Drama.belongsToMany(models.Actor, { 
+    through: models.DramaActor, 
+    as: 'actors',
+    foreignKey: 'drama_id',
+    otherKey: 'actor_id'  // Pastikan ini sesuai dengan nama kolom di DramaActors
+  });
+};
 
 module.exports = Drama;
