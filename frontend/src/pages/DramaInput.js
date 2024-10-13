@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -17,7 +17,7 @@ function DramaInput() {
     });
 
     const genresList = ['Action', 'Adventure', 'Romance', 'Drama', 'Slice of Life'];
-    const actorsList = ['Actor 1', 'Actor 2', 'Actor 3', 'Actor 4', 'Actor 5'];
+    const actorsList = ['Tom Hanks', 'Tim Allen', 'Joan Cusack', 'Kelsey Grammer', 'Don Rickles'];
 
     const handleGenreChange = (genre) => {
         setDrama((prevDrama) => {
@@ -48,6 +48,7 @@ function DramaInput() {
         e.preventDefault();
         try {
             await axios.post('http://localhost:5000/api/dramas', drama);
+            // Resetting the form after submission
             setDrama({
                 title: '',
                 alternativeTitle: '',
@@ -77,6 +78,7 @@ function DramaInput() {
                         name="title"
                         value={drama.title}
                         onChange={handleInputChange}
+                        required
                     />
                 </div>
                 <div className="form-group">
@@ -97,6 +99,7 @@ function DramaInput() {
                         name="year"
                         value={drama.year}
                         onChange={handleInputChange}
+                        required
                     />
                 </div>
                 <div className="form-group">
@@ -107,6 +110,7 @@ function DramaInput() {
                         name="country"
                         value={drama.country}
                         onChange={handleInputChange}
+                        required
                     />
                 </div>
                 <div className="form-group">
@@ -116,6 +120,7 @@ function DramaInput() {
                         name="synopsis"
                         value={drama.synopsis}
                         onChange={handleInputChange}
+                        required
                     ></textarea>
                 </div>
                 <div className="form-group">
@@ -126,13 +131,14 @@ function DramaInput() {
                         name="availability"
                         value={drama.availability}
                         onChange={handleInputChange}
+                        required
                     />
                 </div>
                 <div className="form-group">
                     <label>Add Genres</label>
                     <div className="checkbox-group">
                         {genresList.map((genre) => (
-                            <label key={genre} className="form-check-label">
+                            <div key={genre} className="form-check">
                                 <input
                                     type="checkbox"
                                     className="form-check-input"
@@ -140,8 +146,8 @@ function DramaInput() {
                                     checked={drama.genres.includes(genre)}
                                     onChange={() => handleGenreChange(genre)}
                                 />
-                                {genre}
-                            </label>
+                                <label className="form-check-label">{genre}</label>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -149,7 +155,7 @@ function DramaInput() {
                     <label>Add Actors (Up to 9)</label>
                     <div className="checkbox-group">
                         {actorsList.map((actor) => (
-                            <label key={actor} className="form-check-label">
+                            <div key={actor} className="form-check">
                                 <input
                                     type="checkbox"
                                     className="form-check-input"
@@ -157,8 +163,8 @@ function DramaInput() {
                                     checked={drama.actors.includes(actor)}
                                     onChange={() => handleActorChange(actor)}
                                 />
-                                {actor}
-                            </label>
+                                <label className="form-check-label">{actor}</label>
+                            </div>
                         ))}
                     </div>
                 </div>
