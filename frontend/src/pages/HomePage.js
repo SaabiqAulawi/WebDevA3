@@ -1,30 +1,105 @@
-import React from 'react';
+// import React, { useState, useEffect } from 'react';
+// import Header from '../components/Header';
+// import MovieCard from '../components/MovieCard';
+// import axios from 'axios';
+// import './HomePage.css';
+
+// const HomePage = () => {
+//     const [movies, setMovies] = useState([]);
+
+//     useEffect(() => {
+//         fetchDramas();
+//     }, []);
+
+//     const fetchDramas = async () => {
+//         try {
+//             const response = await axios.get('http://localhost:5000/api/dramas/with-details');
+//             setMovies(response.data);
+//         } catch (error) {
+//             console.error('Error fetching dramas:', error);
+//         }
+//     };
+
+//     return (
+//         <div className="home-page">
+//             <Header />
+
+//             <div className="content-wrapper">
+//                 {/* Main Content */}
+//                 <div className="main-content">
+//                     {/* Filter Bar */}
+//                     <div className="filter-bar">
+//                         <span>Filtered by:</span>
+//                         <select>
+//                             <option>Country</option>
+//                         </select>
+//                         <select>
+//                             <option>Year</option>
+//                         </select>
+//                         <select>
+//                             <option>Genre</option>
+//                         </select>
+//                         <select>
+//                             <option>Status</option>
+//                         </select>
+//                         <select>
+//                             <option>Availability</option>
+//                         </select>
+//                         <select>
+//                             <option>Award</option>
+//                         </select>
+//                         <span>Sorted by:</span>
+//                         <select>
+//                             <option>Alphabetics</option>
+//                         </select>
+//                         <button>Submit</button>
+//                     </div>
+
+//                     {/* Movie List */}
+//                     <div className="movie-list">
+//                         {movies.map(movie => (
+//                             <MovieCard key={movie.id} movie={movie} />
+//                         ))}
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default HomePage;
+
+// HomePage.js
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import MovieCard from '../components/MovieCard';
+import axios from 'axios';
 import './HomePage.css';
 
 const HomePage = () => {
-    const movies = [
-        {
-            id: 1,
-            title: "Title of the drama 1 that makes two lines",
-            poster: "https://via.placeholder.com/150",
-            year: 2024,
-            genres: ["Genre 1", "Genre 2", "Genre 3"],
-            rating: 4.5,
-            views: 12345
-        },
-        {
-            id: 2,
-            title: "Title of the drama 2 that makes two lines",
-            poster: "https://via.placeholder.com/150",
-            year: 2023,
-            genres: ["Genre 1", "Genre 2", "Genre 3"],
-            rating: 3.5,
-            views: 67890
-        },
-        // Tambahkan film lain sesuai kebutuhan
-    ];
+    const [dramas, setDramas] = useState([]);
+
+    useEffect(() => {
+        fetchDramas();
+    }, []);
+
+    const fetchDramas = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/dramas/with-details');
+            const dramasWithPosters = response.data.map(drama => ({
+                id: drama.id,
+                title: drama.title,
+                poster: drama.photolink, // Mengacu ke photolink
+                year: drama.year,
+                genres: drama.genres.map(genre => genre.name)
+            }));
+            setDramas(dramasWithPosters);
+        } catch (error) {
+            console.error('Error fetching dramas:', error);
+        }
+    };
+    
+    
 
     return (
         <div className="home-page">
@@ -61,11 +136,11 @@ const HomePage = () => {
                         <button>Submit</button>
                     </div>
 
-                    {/* Movie List */}
+                    {/* Drama List */}
                     <div className="movie-list">
-                        {movies.map(movie => (
-                            <MovieCard key={movie.id} movie={movie} />
-                        ))}
+                    {dramas.map(drama => (
+                        <MovieCard key={drama.id} drama={drama} />
+                    ))}
                     </div>
                 </div>
             </div>

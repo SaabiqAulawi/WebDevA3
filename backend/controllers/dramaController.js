@@ -37,17 +37,38 @@ exports.getAllDramasWithDetails = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch dramas', details: error.message });
   }
 };
-// Mendapatkan semua drama
-// exports.getAllDramas = async (req, res) => {
-//   try {
-//     const dramas = await Drama.findAll({
-//       attributes: ['title', 'alternativetitle', 'year', 'award_name', 'synopsis', 'availability']
-//     });
-//     res.json(dramas);
-//   } catch (error) {
-//     res.status(500).json({ error: 'Failed to fetch dramas' });
-//   }
-// };
+
+exports.getDramaById = async (req, res) => {
+  const { id } = req.params; // Mengambil ID dari parameter URL
+  try {
+      console.log(`Fetching drama details for ID: ${id}...`);
+      const drama = await Drama.findOne({
+          where: { id: id }, // Mencari drama berdasarkan ID
+          include: [
+              {
+                  model: Genre,
+                  through: DramaGenre,
+                  as: 'genres'
+              },
+              {
+                  model: Actor,
+                  through: DramaActor,
+                  as: 'actors'
+              }
+          ]
+      });
+
+      if (!drama) {
+          return res.status(404).json({ message: 'Drama not found' });
+      }
+
+      console.log('Drama fetched:', JSON.stringify(drama, null, 2));
+      res.json(drama);
+  } catch (error) {
+      console.error('Error fetching drama details:', error);
+      res.status(500).json({ error: 'Failed to fetch drama details', details: error.message });
+  }
+};
 
 // Membuat drama baru
 exports.createDrama = async (req, res) => {

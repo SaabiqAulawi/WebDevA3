@@ -14,6 +14,10 @@ const Drama = sequelize.define('Drama', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  photolink: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   country_id: {
     type: DataTypes.INTEGER,
     allowNull: false,

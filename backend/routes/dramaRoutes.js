@@ -7,6 +7,7 @@ const dramaController = require('../controllers/dramaController');
 
 // Use the getAllDramasWithDetails function instead
 router.get('/with-details', dramaController.getAllDramasWithDetails);
+router.get('/:id', dramaController.getDramaById); 
 router.post('/', dramaController.createDrama);
 router.put('/:id', dramaController.updateDrama);
 router.delete('/:id', dramaController.deleteDrama);

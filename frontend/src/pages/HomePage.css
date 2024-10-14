@@ -20,19 +20,21 @@
 }
 
 .content-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display: flex; /* Menggunakan flexbox */
+    flex-direction: row; /* Atur agar sidebar dan konten ditampilkan dalam satu baris */
+    align-items: flex-start; /* Pastikan elemen berada di atas */
+    justify-content: space-between; /* Memberikan ruang yang sama antara elemen */
+    width: 100%; /* Pastikan mengambil lebar penuh */
 }
 
 .sidebar {
-    background-color: #001f3f;  /* Warna biru dongker */
+    flex: 0 0 200px; /* Atur lebar sidebar */
+    background-color: #001f3f; /* Warna biru dongker */
     padding: 15px;
     border-radius: 10px;
     color: rgb(255, 255, 255);
-    width: 200px;
-    margin-right: 20px;
-    box-sizing: border-box;
+    margin-right: 20px; /* Jarak antara sidebar dan konten utama */
+    box-sizing: border-box; /* Pastikan padding dan border tidak menambah lebar */
 }
 
 .sidebar h3 {
@@ -53,8 +55,8 @@
 }
 
 .main-content {
-    flex-grow: 1;  
-    padding: 0;
+    flex-grow: 1; /* Memungkinkan konten utama untuk mengambil sisa ruang */
+    padding: 0; /* Hapus padding jika tidak perlu */
 }
 
 .filter-bar {
@@ -79,25 +81,44 @@
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: calc(25% - 20px);  /* Setiap kartu film memiliki lebar 25% layar dengan jarak 20px antar elemen */
     box-sizing: border-box;
     text-align: center;
     transition: transform 0.3s ease; /* Animasi hover */
+    width: 250px;  /* Atur lebar sesuai kebutuhan */
+    height: 400px; /* Atur tinggi sesuai kebutuhan */
+    margin: 10px;  /* Jarak antar movie card */
+    display: flex;  /* Menggunakan flexbox untuk memposisikan konten */
+    flex-direction: column; /* Atur agar konten ditampilkan secara vertikal */
+    justify-content: space-between; /* Ruang di antara konten */
+    text-align: center; /* Pusatkan teks */
 }
 
 .movie-card img {
-    max-width: 100%;  /* Agar poster tidak melebihi ukuran kontainer */
-    border-radius: 10px;
+    max-width: 100%; /* Pastikan gambar tidak melebihi lebar card */
+    max-height: 200px; /* Atur tinggi maksimum untuk gambar */
+    border-radius: 10px; /* Sudut melengkung untuk gambar */
+}
+
+.placeholder {
+    width: 100%; /* Ukuran mengikuti lebar movie card */
+    height: 200px; /* Tinggi placeholder */
+    background-color: #f0f0f0; /* Warna latar belakang */
+    border: 2px dashed #ccc; /* Garis putus-putus untuk menandakan kosong */
+    display: flex;
+    justify-content: center; /* Pusatkan teks di dalam kotak */
+    align-items: center; /* Pusatkan teks secara vertikal */
+    border-radius: 10px; /* Sama dengan gambar */
+    color: #aaa; /* Warna teks */
+    font-size: 14px; /* Ukuran teks */
 }
 
 .movie-card h3 {
-    font-size: 16px;
-    margin: 10px 0;
+    font-size: 16px; /* Ukuran teks judul */
+    margin: 5px 0; /* Jarak atas dan bawah */
 }
 
 .movie-card p {
-    margin: 5px 0;
-    font-size: 14px;
+    margin: 5px 0; /* Jarak atas dan bawah untuk deskripsi */
 }
 
 /* Hover effect */
