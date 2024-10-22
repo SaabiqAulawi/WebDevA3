@@ -8,10 +8,10 @@ const MovieCard = ({ drama }) => { // Ganti `movie` menjadi `drama`
                 <img src={
                     // drama.poster || 
                     "https://via.placeholder.com/150"} />
-                <h3>{drama.title}</h3>
-                <p>Year: {drama.year}</p>
-                <p>Genres: {drama.genres.join(', ') || 'N/A'}</p>
             </Link>
+            <h3>{drama.title}</h3>
+            <p>Year: {drama.year}</p>
+            <p>Genres: {drama.genres.join(', ') || 'N/A'}</p>
         </div>
     );
 };

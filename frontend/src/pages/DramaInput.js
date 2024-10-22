@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import DramaApproved from './DramaApproved';  // Import DramaApproved component
 
 function DramaInput() {
     const [drama, setDrama] = useState({
@@ -10,33 +11,37 @@ function DramaInput() {
         country: '',
         synopsis: '',
         availability: '',
-        genres: [],
-        actors: [],
+        genres: '',
+        actors: '',
         trailerLink: '',
         award: ''
     });
 
-    const genresList = ['Action', 'Adventure', 'Romance', 'Drama', 'Slice of Life'];
-    const actorsList = ['Tom Hanks', 'Tim Allen', 'Joan Cusack', 'Kelsey Grammer', 'Don Rickles'];
+    const [dramaSubmitted, setDramaSubmitted] = useState(false);  // State to trigger reload of DramaApproved
+    const [errorMessage, setErrorMessage] = useState('');  // State to handle country input error
 
-    const handleGenreChange = (genre) => {
-        setDrama((prevDrama) => {
-            const genres = prevDrama.genres.includes(genre)
-                ? prevDrama.genres.filter((g) => g !== genre)
-                : [...prevDrama.genres, genre];
-            return { ...prevDrama, genres };
-        });
+    // Fetch genres and actors on component mount
+    useEffect(() => {
+        fetchGenres();
+        fetchActors();
+    }, []);
+
+    const fetchGenres = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/genres');
+            setGenresList(response.data);
+        } catch (error) {
+            console.error('Error fetching genres:', error);
+        }
     };
 
-    const handleActorChange = (actor) => {
-        setDrama((prevDrama) => {
-            const actors = prevDrama.actors.includes(actor)
-                ? prevDrama.actors.filter((a) => a !== actor)
-                : prevDrama.actors.length < 9
-                ? [...prevDrama.actors, actor]
-                : prevDrama.actors;
-            return { ...prevDrama, actors };
-        });
+    const fetchActors = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/actors');
+            setActorsList(response.data);
+        } catch (error) {
+            console.error('Error fetching actors:', error);
+        }
     };
 
     const handleInputChange = (e) => {
@@ -46,8 +51,29 @@ function DramaInput() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Validate country input (only one country allowed)
+        const countryList = drama.country.split(/\s*,\s*/).filter(country => country);
+        if (countryList.length > 1) {
+            setErrorMessage('Only one country is allowed. Please enter a single country.');
+            return;
+        } else {
+            setErrorMessage('');  // Clear error if input is valid
+        }
+
+        // Split genres and actors using regex for comma and optional spaces
+        const genreList = drama.genres.split(/\s*,\s*/).filter(genre => genre);
+        const actorList = drama.actors.split(/\s*,\s*/).filter(actor => actor);
+
+        const dramaData = {
+            ...drama,
+            genres: genreList,  // Convert genres to array
+            actors: actorList,   // Convert actors to array
+            country: countryList[0] || ''  // Use the single country from input
+        };
+
         try {
-            await axios.post('http://localhost:5000/api/dramas', drama);
+            await axios.post('http://localhost:5000/api/dramas', dramaData);
             // Resetting the form after submission
             setDrama({
                 title: '',
@@ -56,11 +82,12 @@ function DramaInput() {
                 country: '',
                 synopsis: '',
                 availability: '',
-                genres: [],
-                actors: [],
+                genres: '',
+                actors: '',
                 trailerLink: '',
                 award: ''
             });
+            setDramaSubmitted(!dramaSubmitted);  // Trigger reload of DramaApproved component
         } catch (error) {
             console.error('Error creating drama:', error);
         }
@@ -103,15 +130,17 @@ function DramaInput() {
                     />
                 </div>
                 <div className="form-group">
-                    <label>Country</label>
+                    <label>Country (only one country allowed)</label>
                     <input
                         type="text"
                         className="form-control"
                         name="country"
                         value={drama.country}
                         onChange={handleInputChange}
+                        placeholder="Enter one country"
                         required
                     />
+                    {errorMessage && <p className="text-danger">{errorMessage}</p>}
                 </div>
                 <div className="form-group">
                     <label>Synopsis</label>
@@ -134,40 +163,33 @@ function DramaInput() {
                         required
                     />
                 </div>
+
+                {/* Genre input as comma-separated text */}
                 <div className="form-group">
-                    <label>Add Genres</label>
-                    <div className="checkbox-group">
-                        {genresList.map((genre) => (
-                            <div key={genre} className="form-check">
-                                <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    value={genre}
-                                    checked={drama.genres.includes(genre)}
-                                    onChange={() => handleGenreChange(genre)}
-                                />
-                                <label className="form-check-label">{genre}</label>
-                            </div>
-                        ))}
-                    </div>
+                    <label>Genres (e.g. Animation, Fantasy)</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        name="genres"
+                        value={drama.genres}
+                        onChange={handleInputChange}
+                        placeholder="Enter genres separated by commas"
+                    />
                 </div>
+
+                {/* Actor input as comma-separated text */}
                 <div className="form-group">
-                    <label>Add Actors (Up to 9)</label>
-                    <div className="checkbox-group">
-                        {actorsList.map((actor) => (
-                            <div key={actor} className="form-check">
-                                <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    value={actor}
-                                    checked={drama.actors.includes(actor)}
-                                    onChange={() => handleActorChange(actor)}
-                                />
-                                <label className="form-check-label">{actor}</label>
-                            </div>
-                        ))}
-                    </div>
+                    <label>Actors (e.g. John Doe, Megan Fox)</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        name="actors"
+                        value={drama.actors}
+                        onChange={handleInputChange}
+                        placeholder="Enter actors separated by commas"
+                    />
                 </div>
+
                 <div className="form-group">
                     <label>Trailer Link</label>
                     <input
@@ -190,6 +212,9 @@ function DramaInput() {
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
+
+            {/* DramaApproved component displayed below the form */}
+            <DramaApproved key={dramaSubmitted} />
         </div>
     );
 }

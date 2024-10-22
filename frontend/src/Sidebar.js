@@ -14,7 +14,6 @@ function Sidebar() {
                 <li><Link to="/comments">Comments</Link></li>
                 <li><Link to="/users">Users</Link></li>
                 <li><Link to="/input-drama">Input New Drama</Link></li>
-                <li><Link to="/approved-drama">Approved Drama</Link></li>
                 <li><a href="#">Logout</a></li>
             </ul>
         </div>
