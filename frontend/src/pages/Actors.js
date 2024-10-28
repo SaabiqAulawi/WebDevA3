@@ -76,8 +76,8 @@ function Actors() {
                     <input
                         type="date"
                         className="form-control"
-                        value={newActor.birthDate}
-                        onChange={(e) => setNewActor({ ...newActor, birthDate: e.target.value })}
+                        value={newActor.birthdate}
+                        onChange={(e) => setNewActor({ ...newActor, birthdate: e.target.value })}
                         required
                     />
                     <input
@@ -116,7 +116,7 @@ function Actors() {
                         <tr key={actor.id}>
                             <td>{index + 1}</td>
                             <td>{actor.name}</td>
-                            <td>{actor.birthDate}</td>
+                            <td>{actor.birthdate}</td>
                             <td>
                                 <button className="btn btn-danger" onClick={() => handleDelete(actor.id)}>Delete</button>
                             </td>

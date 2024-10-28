@@ -24,7 +24,7 @@ function LayoutWithSidebar({ children }) {
     const hideSidebarOn = [
         '/login',
         '/registration',
-        '/movie',  // Matches dynamic movieId route
+        '/drama',  // Matches dynamic movieId route
         '/search',  // Matches dynamic searchTerm route
         '/'
     ];
@@ -73,7 +73,7 @@ function App() {
                             }
                         />
                         <Route
-                            path="/movie/:movieId"
+                            path="/drama/:dramaId"
                             element={
                                 <LayoutWithSidebar>
                                     <MovieDetail />
