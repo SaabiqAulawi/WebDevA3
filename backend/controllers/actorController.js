@@ -4,10 +4,15 @@ const Actor = require('../models/Actor');
 exports.getAllActors = async (req, res) => {
   try {
     const actors = await Actor.findAll({
-      attributes: ['id', 'name', 'birthdate']
+      include: [{
+        model: Country,
+        as: 'country',
+        attributes: ['name']  // Hanya mengambil kolom `name`
+      }]
     });
     res.json(actors);
   } catch (error) {
+    console.error('Error fetching actors:', error);
     res.status(500).json({ error: 'Failed to fetch actors' });
   }
 };

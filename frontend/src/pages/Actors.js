@@ -4,17 +4,24 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Actors() {
     const [actors, setActors] = useState([]);
-    const [countries, setCountries] = useState([]); // State untuk menyimpan daftar negara
+    const [countries, setCountries] = useState([]);
     const [newActor, setNewActor] = useState({
         name: '',
-        birthDate: '',
-        photoLink: '',
+        birthdate: '',
+        photolink: '',
+        country_id: ''
+    });
+    const [editingActorId, setEditingActorId] = useState(null);
+    const [editedActor, setEditedActor] = useState({
+        name: '',
+        birthdate: '',
+        photolink: '',
         country_id: ''
     });
 
     useEffect(() => {
         fetchActors();
-        fetchCountries(); // Panggil fetchCountries saat komponen di-render
+        fetchCountries();
     }, []);
 
     const fetchActors = async () => {
@@ -28,8 +35,8 @@ function Actors() {
 
     const fetchCountries = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/countries'); // Ambil daftar negara dari API
-            setCountries(response.data); // Simpan data negara ke dalam state
+            const response = await axios.get('http://localhost:5000/api/countries');
+            setCountries(response.data);
         } catch (error) {
             console.error('Error fetching countries:', error);
         }
@@ -38,13 +45,8 @@ function Actors() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/api/actors', {
-                name: newActor.name,
-                birthDate: newActor.birthDate,
-                photoLink: newActor.photoLink,
-                country_id: newActor.country_id
-            });
-            setNewActor({ name: '', birthDate: '', photoLink: '', country_id: '' });
+            await axios.post('http://localhost:5000/api/actors', newActor);
+            setNewActor({ name: '', birthdate: '', photolink: '', country_id: '' });
             fetchActors();
         } catch (error) {
             console.error('Error creating actor:', error);
@@ -57,6 +59,28 @@ function Actors() {
             fetchActors();
         } catch (error) {
             console.error('Error deleting actor:', error);
+        }
+    };
+
+    const handleEdit = (actor) => {
+        setEditingActorId(actor.id);
+        setEditedActor({
+            name: actor.name,
+            birthdate: actor.birthdate,
+            photolink: actor.photolink,
+            country_id: actor.country_id
+        });
+    };
+
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.put(`http://localhost:5000/api/actors/${editingActorId}`, editedActor);
+            setEditingActorId(null);
+            setEditedActor({ name: '', birthdate: '', photolink: '', country_id: '' });
+            fetchActors();
+        } catch (error) {
+            console.error('Error updating actor:', error);
         }
     };
 
@@ -84,8 +108,8 @@ function Actors() {
                         type="text"
                         className="form-control"
                         placeholder="Photo Link"
-                        value={newActor.photoLink}
-                        onChange={(e) => setNewActor({ ...newActor, photoLink: e.target.value })}
+                        value={newActor.photolink}
+                        onChange={(e) => setNewActor({ ...newActor, photolink: e.target.value })}
                     />
                     <select
                         className="form-control"
@@ -108,6 +132,8 @@ function Actors() {
                         <th>#</th>
                         <th>Name</th>
                         <th>Birth Date</th>
+                        <th>Photo Link</th>
+                        <th>Country</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -115,10 +141,72 @@ function Actors() {
                     {actors.map((actor, index) => (
                         <tr key={actor.id}>
                             <td>{index + 1}</td>
-                            <td>{actor.name}</td>
-                            <td>{actor.birthdate}</td>
                             <td>
-                                <button className="btn btn-danger" onClick={() => handleDelete(actor.id)}>Delete</button>
+                                {editingActorId === actor.id ? (
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        value={editedActor.name}
+                                        onChange={(e) => setEditedActor({ ...editedActor, name: e.target.value })}
+                                    />
+                                ) : (
+                                    actor.name
+                                )}
+                            </td>
+                            <td>
+                                {editingActorId === actor.id ? (
+                                    <input
+                                        type="date"
+                                        className="form-control"
+                                        value={editedActor.birthdate}
+                                        onChange={(e) => setEditedActor({ ...editedActor, birthdate: e.target.value })}
+                                    />
+                                ) : (
+                                    actor.birthdate
+                                )}
+                            </td>
+                            <td>
+                                {editingActorId === actor.id ? (
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        value={editedActor.photolink}
+                                        onChange={(e) => setEditedActor({ ...editedActor, photolink: e.target.value })}
+                                    />
+                                ) : (
+                                    <a href={actor.photolink} target="_blank" rel="noopener noreferrer">
+                                        {actor.photolink}
+                                    </a>
+                                )}
+                            </td>
+                            <td>
+                                {editingActorId === actor.id ? (
+                                    <select
+                                        className="form-control"
+                                        value={editedActor.country_id}
+                                        onChange={(e) => setEditedActor({ ...editedActor, country_id: e.target.value })}
+                                    >
+                                        <option value="">Select Country</option>
+                                        {countries.map((country) => (
+                                            <option key={country.id} value={country.id}>{country.name}</option>
+                                        ))}
+                                    </select>
+                                ) : (
+                                    actor.country?.name || "N/A"
+                                )}
+                            </td>
+                            <td>
+                                {editingActorId === actor.id ? (
+                                    <>
+                                        <button className="btn btn-success me-2" onClick={handleUpdate}>Save</button>
+                                        <button className="btn btn-secondary" onClick={() => setEditingActorId(null)}>Cancel</button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <button className="btn btn-warning me-2" onClick={() => handleEdit(actor)}>Edit</button>
+                                        <button className="btn btn-danger" onClick={() => handleDelete(actor.id)}>Delete</button>
+                                    </>
+                                )}
                             </td>
                         </tr>
                     ))}

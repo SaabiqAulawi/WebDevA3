@@ -5,9 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function Users() {
     const [users, setUsers] = useState([]);
     const [newUser, setNewUser] = useState({
-        name: '',
+        username: '', // Changed from name to match backend
         email: '',
-        role: 'User', // Default role
     });
 
     useEffect(() => {
@@ -20,6 +19,7 @@ function Users() {
             setUsers(response.data);
         } catch (error) {
             console.error('Error fetching users:', error);
+            alert('Failed to fetch users. Please try again.');
         }
     };
 
@@ -27,28 +27,12 @@ function Users() {
         e.preventDefault();
         try {
             await axios.post('http://localhost:5000/api/users', newUser);
-            setNewUser({ name: '', email: '', role: 'User' });
+            // Reset form and refresh user list
+            setNewUser({ username: '', email: '' });
             fetchUsers();
         } catch (error) {
             console.error('Error creating user:', error);
-        }
-    };
-
-    const handleDelete = async (id) => {
-        try {
-            await axios.delete(`http://localhost:5000/api/users/${id}`);
-            fetchUsers();
-        } catch (error) {
-            console.error('Error deleting user:', error);
-        }
-    };
-
-    const handleRoleChange = async (id, role) => {
-        try {
-            await axios.put(`http://localhost:5000/api/users/${id}`, { role });
-            fetchUsers();
-        } catch (error) {
-            console.error('Error updating user role:', error);
+            alert('Failed to create user. Please try again.');
         }
     };
 
@@ -58,76 +42,59 @@ function Users() {
     };
 
     return (
-        <div className="container">
-            <h3>Users</h3>
-            <form className="mb-3" onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Name"
-                        name="name"
-                        value={newUser.name}
-                        onChange={handleInputChange}
-                        required
-                    />
+        <div className="container mt-5">
+            <h2 className="mb-4">User Management</h2>
+            
+            {/* User Creation Form */}
+            <form onSubmit={handleSubmit} className="mb-4">
+                <div className="row">
+                    <div className="col-md-5 mb-2">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Username"
+                            name="username"
+                            value={newUser.username}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="col-md-5 mb-2">
+                        <input
+                            type="email"
+                            className="form-control"
+                            placeholder="Email"
+                            name="email"
+                            value={newUser.email}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="col-md-2">
+                        <button type="submit" className="btn btn-primary w-100">
+                            Add User
+                        </button>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <input
-                        type="email"
-                        className="form-control"
-                        placeholder="Email"
-                        name="email"
-                        value={newUser.email}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <select
-                        className="form-control"
-                        name="role"
-                        value={newUser.role}
-                        onChange={handleInputChange}
-                    >
-                        <option value="User">User</option>
-                        <option value="Admin">Admin</option>
-                    </select>
-                </div>
-                <button type="submit" className="btn btn-primary">Add User</button>
             </form>
 
-            <table className="table table-bordered">
-                <thead>
+            {/* User List Table */}
+            <table className="table table-striped">
+                <thead className="thead-light">
                     <tr>
                         <th>#</th>
-                        <th>Name</th>
+                        <th>Username</th>
                         <th>Email</th>
                         <th>Role</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {users.map((user, index) => (
                         <tr key={user.id}>
                             <td>{index + 1}</td>
-                            <td>{user.name}</td>
+                            <td>{user.username}</td>
                             <td>{user.email}</td>
-                            <td>
-                                <select
-                                    className="form-control"
-                                    value={user.role}
-                                    onChange={(e) => handleRoleChange(user.id, e.target.value)}
-                                >
-                                    <option value="User">User</option>
-                                    <option value="Admin">Admin</option>
-                                </select>
-                            </td>
-                            <td>
-                                <button className="btn btn-danger" onClick={() => handleDelete(user.id)}>
-                                    Delete
-                                </button>
-                            </td>
+                            <td>{user.role}</td>
                         </tr>
                     ))}
                 </tbody>

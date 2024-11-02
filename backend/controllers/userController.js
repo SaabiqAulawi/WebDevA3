@@ -1,22 +1,44 @@
 const User = require('../models/User');
 
-// Mendapatkan semua pengguna
+// Get all users
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      attributes: ['id', 'username', 'email', 'role'] // Specify which attributes to return
+    });
     res.json(users);
   } catch (error) {
+    console.error('Error fetching users:', error);
     res.status(500).json({ error: 'Failed to fetch users' });
   }
 };
 
-// Membuat pengguna baru
+// Create new user
 exports.createUser = async (req, res) => {
   try {
-    const { username, email, role } = req.body; // Ambil data pengguna dari body request
-    const newUser = await User.create({ username, email, role });
-    res.json(newUser);
+    const { username, email } = req.body;
+    
+    // Check if username or email already exists
+    const existingUser = await User.findOne({
+      where: {
+        [Op.or]: [{ username }, { email }]
+      }
+    });
+    
+    if (existingUser) {
+      return res.status(400).json({ error: 'Username or email already exists' });
+    }
+
+    // Create user with default 'User' role
+    const newUser = await User.create({ 
+      username, 
+      email,
+      role: 'User' // Explicitly set to 'User'
+    });
+
+    res.status(201).json(newUser);
   } catch (error) {
+    console.error('Error creating user:', error);
     res.status(500).json({ error: 'Failed to create user' });
   }
 };
