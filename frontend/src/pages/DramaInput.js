@@ -6,43 +6,19 @@ import DramaApproved from './DramaApproved';  // Import DramaApproved component
 function DramaInput() {
     const [drama, setDrama] = useState({
         title: '',
-        alternativeTitle: '',
+        alternativetitle: '',  // Ubah ke alternativetitle
         year: '',
         country: '',
         synopsis: '',
         availability: '',
         genres: '',
         actors: '',
-        trailerLink: '',
+        trailerlink: '',  // Ubah ke trailerlink
         award: ''
     });
 
     const [dramaSubmitted, setDramaSubmitted] = useState(false);  // State to trigger reload of DramaApproved
     const [errorMessage, setErrorMessage] = useState('');  // State to handle country input error
-
-    // Fetch genres and actors on component mount
-    useEffect(() => {
-        fetchGenres();
-        fetchActors();
-    }, []);
-
-    const fetchGenres = async () => {
-        try {
-            const response = await axios.get('http://localhost:5000/api/genres');
-            setGenresList(response.data);
-        } catch (error) {
-            console.error('Error fetching genres:', error);
-        }
-    };
-
-    const fetchActors = async () => {
-        try {
-            const response = await axios.get('http://localhost:5000/api/actors');
-            setActorsList(response.data);
-        } catch (error) {
-            console.error('Error fetching actors:', error);
-        }
-    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -77,14 +53,14 @@ function DramaInput() {
             // Resetting the form after submission
             setDrama({
                 title: '',
-                alternativeTitle: '',
+                alternativetitle: '',
                 year: '',
                 country: '',
                 synopsis: '',
                 availability: '',
                 genres: '',
                 actors: '',
-                trailerLink: '',
+                trailerlink: '',
                 award: ''
             });
             setDramaSubmitted(!dramaSubmitted);  // Trigger reload of DramaApproved component
@@ -113,8 +89,8 @@ function DramaInput() {
                     <input
                         type="text"
                         className="form-control"
-                        name="alternativeTitle"
-                        value={drama.alternativeTitle}
+                        name="alternativetitle"
+                        value={drama.alternativetitle}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -195,8 +171,8 @@ function DramaInput() {
                     <input
                         type="text"
                         className="form-control"
-                        name="trailerLink"
-                        value={drama.trailerLink}
+                        name="trailerlink"
+                        value={drama.trailerlink}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -214,7 +190,7 @@ function DramaInput() {
             </form>
 
             {/* DramaApproved component displayed below the form */}
-            <DramaApproved key={dramaSubmitted} />
+            {/* <DramaApproved key={dramaSubmitted} /> */}
         </div>
     );
 }

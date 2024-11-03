@@ -3,7 +3,6 @@ const Genre = require('../models/Genre');
 const Actor = require('../models/Actor');
 const DramaGenre = require('../models/DramaGenre');
 const DramaActor = require('../models/DramaActor');
-// const { QueryTypes } = require('sequelize'); // Pastikan untuk mengimpor QueryTypes
 
 // Mendapatkan drama dengan aktor dan genre
 // Mengambil semua drama dengan detail
@@ -71,33 +70,60 @@ exports.getDramaById = async (req, res) => {
 };
 
 // Membuat drama baru
+// dramaController.js
+const Drama = require('../models/Drama');
+const DramaGenre = require('../models/DramaGenre'); // Assosiasi drama-genre jika dibutuhkan
+const DramaActor = require('../models/DramaActor'); // Assosiasi drama-aktor jika dibutuhkan
+
+// Fungsi untuk menambahkan drama baru
 exports.createDrama = async (req, res) => {
   try {
-    const {
-      title,
-      alternativeTitle,
-      year,
-      country_id,
-      synopsis,
-      availability,
-      trailerLink,
-      award_name,
-    } = req.body; // Ambil data drama dari body request
+    const { 
+      title, 
+      alternativetitle, 
+      year, 
+      country_id, 
+      synopsis, 
+      availability, 
+      trailerlink, 
+      award_name, 
+      genres, 
+      actors 
+    } = req.body;
+
+    // Buat data drama baru
     const newDrama = await Drama.create({
       title,
-      alternativeTitle,
+      alternativetitle,
       year,
       country_id,
       synopsis,
       availability,
-      trailerLink,
-      award_name,
+      trailerlink,
+      award_name
     });
-    res.json(newDrama);
+
+    // Jika ada genre, tambahkan genre dengan assosiasi
+    if (genres && genres.length > 0) {
+      await Promise.all(genres.map(async (genreId) => {
+        await DramaGenre.create({ drama_id: newDrama.id, genre_id: genreId });
+      }));
+    }
+
+    // Jika ada aktor, tambahkan aktor dengan assosiasi
+    if (actors && actors.length > 0) {
+      await Promise.all(actors.map(async (actorId) => {
+        await DramaActor.create({ drama_id: newDrama.id, actor_id: actorId });
+      }));
+    }
+
+    res.status(201).json(newDrama);
   } catch (error) {
+    console.error('Error creating drama:', error);
     res.status(500).json({ error: 'Failed to create drama' });
   }
 };
+
 
 // Memperbarui drama
 exports.updateDrama = async (req, res) => {
@@ -110,7 +136,7 @@ exports.updateDrama = async (req, res) => {
     res.json(drama);
   } catch (error) {
     res.status(500).json({ error: 'Failed to update drama' });
-  }
+  } 
 };
 
 // Menghapus drama

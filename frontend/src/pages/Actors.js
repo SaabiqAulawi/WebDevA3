@@ -47,7 +47,7 @@ function Actors() {
         try {
             await axios.post('http://localhost:5000/api/actors', newActor);
             setNewActor({ name: '', birthdate: '', photolink: '', country_id: '' });
-            fetchActors();
+            fetchActors(); // Refresh daftar aktor setelah berhasil menambahkan
         } catch (error) {
             console.error('Error creating actor:', error);
         }
@@ -56,7 +56,7 @@ function Actors() {
     const handleDelete = async (id) => {
         try {
             await axios.delete(`http://localhost:5000/api/actors/${id}`);
-            fetchActors();
+            fetchActors(); // Refresh daftar aktor setelah berhasil menghapus
         } catch (error) {
             console.error('Error deleting actor:', error);
         }
