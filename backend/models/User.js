@@ -9,6 +9,11 @@ const User = sequelize.define('User', {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true, // Menjadikan email unik untuk mencegah duplikasi
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   role: {
     type: DataTypes.STRING,
