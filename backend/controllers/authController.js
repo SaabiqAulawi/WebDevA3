@@ -1,10 +1,10 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../controllers/userController'); // Pastikan path ini sesuai struktur folder Anda
+const User = require('../models/User'); // Perbaiki path model
 
 // Registrasi
 exports.register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, role } = req.body; // Tambahkan role jika diperlukan
 
   try {
     // Hash password
@@ -15,6 +15,7 @@ exports.register = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      role: role || 'User', // Role default adalah 'User'
     });
 
     res.status(201).json({ message: 'User registered successfully', user: newUser });

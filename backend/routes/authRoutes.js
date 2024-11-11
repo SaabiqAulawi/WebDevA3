@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const authController = require('../controllers/authController');
+const { authenticateToken } = require('../middleware/authMiddleware');
+const User = require('../models/User');
 
-// Rute registrasi
-router.post('/register', authController.register);
-
-// Rute login
-router.post('/login', authController.login);
+router.get('/getUserRole', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.userId);
+    res.json({ role: user.role });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to retrieve user role' });
+  }
+});
 
 module.exports = router;
