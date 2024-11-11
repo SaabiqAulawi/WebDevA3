@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../controllers/user'); // Pastikan path ini sesuai struktur folder Anda
+const User = require('../controllers/userController'); // Pastikan path ini sesuai struktur folder Anda
 
 // Registrasi
 exports.register = async (req, res) => {
