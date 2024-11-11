@@ -71,9 +71,9 @@ exports.getDramaById = async (req, res) => {
 
 // Membuat drama baru
 // dramaController.js
-const Drama = require('../models/Drama');
-const DramaGenre = require('../models/DramaGenre'); // Assosiasi drama-genre jika dibutuhkan
-const DramaActor = require('../models/DramaActor'); // Assosiasi drama-aktor jika dibutuhkan
+// const Drama = require('../models/Drama');
+// const DramaGenre = require('../models/DramaGenre'); // Assosiasi drama-genre jika dibutuhkan
+// const DramaActor = require('../models/DramaActor'); // Assosiasi drama-aktor jika dibutuhkan
 
 // Fungsi untuk menambahkan drama baru
 exports.createDrama = async (req, res) => {

@@ -190,7 +190,7 @@ function DramaInput() {
             </form>
 
             {/* DramaApproved component displayed below the form */}
-            {/* <DramaApproved key={dramaSubmitted} /> */}
+             <DramaApproved key={dramaSubmitted} /> 
         </div>
     );
 }

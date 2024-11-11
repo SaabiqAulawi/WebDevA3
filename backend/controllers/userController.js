@@ -1,4 +1,7 @@
 const User = require('../models/User');
+const { Op } = require('sequelize');
+const bcrypt = require('bcrypt');
+
 
 // Get all users
 exports.getAllUsers = async (req, res) => {
@@ -16,23 +19,27 @@ exports.getAllUsers = async (req, res) => {
 // Create new user
 exports.createUser = async (req, res) => {
   try {
-    const { username, email } = req.body;
-    
+    const { username, email, password } = req.body; // Tambahkan password di sini
+
     // Check if username or email already exists
     const existingUser = await User.findOne({
       where: {
         [Op.or]: [{ username }, { email }]
       }
     });
-    
+
     if (existingUser) {
       return res.status(400).json({ error: 'Username or email already exists' });
     }
 
-    // Create user with default 'User' role
-    const newUser = await User.create({ 
-      username, 
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create user with hashed password
+    const newUser = await User.create({
+      username,
       email,
+      password: hashedPassword, // Set password yang sudah di-hash
       role: 'User' // Explicitly set to 'User'
     });
 
