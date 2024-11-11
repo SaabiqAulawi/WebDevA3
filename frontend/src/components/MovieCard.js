@@ -5,9 +5,25 @@ const MovieCard = ({ drama }) => { // Ganti `movie` menjadi `drama`
     return (
         <div className="movie-card">
             <Link to={`/drama/${drama.id}`}>
-                <img src={
-                    // drama.poster || 
-                    "https://via.placeholder.com/150"} />
+                <img
+                    // set image fitted 150
+
+                    style={{
+                        width: '150px',
+                        height: '150px'
+                    }}
+
+                        src={drama.photolink} 
+                        alt={drama.title}
+                        onError={(e) => {
+                            e.target.src = "https://via.placeholder.com/150";
+                            e.target.alt = "Placeholder image";
+                        }}
+                        onLoad={(e) => {
+                            e.target.src = "https://via.placeholder.com/150";
+                            e.target.alt = "Placeholder image";
+                        }}
+                />
             </Link>
             <h3>{drama.title}</h3>
             <p>Year: {drama.year}</p>

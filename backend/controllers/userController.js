@@ -50,16 +50,43 @@ exports.createUser = async (req, res) => {
   }
 };
 
-// Memperbarui pengguna
+const isValidEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+// Memperbarui pengguna dengan beberapa atribut
 exports.updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { role } = req.body; // Ambil role dari body request
+    const { username, email, password, role } = req.body;
+
+    // Validasi role jika ada
+    if (role && !["Admin", "User"].includes(role)) {
+      return res.status(400).json({ error: "Invalid role value" });
+    }
+
+    // Validasi email jika ada
+    if (email && !isValidEmail(email)) {
+      return res.status(400).json({ error: "Invalid email format" });
+    }
+
+    // Cari user berdasarkan ID
     const user = await User.findByPk(id);
     if (!user) return res.status(404).json({ error: 'User not found' });
-    await user.update({ role });
+
+    // Update data user
+    const updatedData = { username, email, role };
+
+    // Hash password jika ada
+    if (password) {
+      updatedData.password = await bcrypt.hash(password, 10);
+    }
+
+    await user.update(updatedData);
     res.json(user);
   } catch (error) {
+    console.error('Error updating user:', error);
     res.status(500).json({ error: 'Failed to update user' });
   }
 };
@@ -68,11 +95,16 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Cari user berdasarkan ID
     const user = await User.findByPk(id);
     if (!user) return res.status(404).json({ error: 'User not found' });
+
+    // Hapus user
     await user.destroy();
     res.json({ message: 'User deleted successfully' });
   } catch (error) {
+    console.error('Error deleting user:', error);
     res.status(500).json({ error: 'Failed to delete user' });
   }
-}; 
+};
