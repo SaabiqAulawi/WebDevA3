@@ -11,14 +11,18 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^5.1.1",
+<<<<<<< HEAD
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
+=======
+>>>>>>> 7f0a8117cac55c57e0b5d051427cacd81ddbc9f8
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.1",
     "nodemon": "^3.1.4",
+    "op": "^0.0.6",
     "pg": "^8.13.0",
     "pg-hstore": "^2.3.4",
     "react-scripts": "^5.0.1",

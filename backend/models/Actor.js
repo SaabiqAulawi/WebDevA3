@@ -1,5 +1,7 @@
+// models/Actor.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const Country = require('./Country'); // Pastikan model Country diimpor
 
 const Actor = sequelize.define('Actor', {
   name: {
@@ -8,7 +10,7 @@ const Actor = sequelize.define('Actor', {
   },
   birthdate: {
     type: DataTypes.DATEONLY,
-    allowNull: false,
+    allowNull: true,
   },
   photolink: {
     type: DataTypes.STRING,
@@ -18,12 +20,15 @@ const Actor = sequelize.define('Actor', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Countries', // Nama tabel referensi
-      key: 'id', // Nama kolom referensi
+      model: 'Countries',
+      key: 'id',
     },
   },
 }, {
-  timestamps: false, // Mengaktifkan createdAt dan updatedAt
+  timestamps: false,
 });
+
+// Menambahkan relasi dengan Country
+Actor.belongsTo(Country, { foreignKey: 'country_id', as: 'country' });
 
 module.exports = Actor;

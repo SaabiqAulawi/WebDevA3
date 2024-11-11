@@ -20,8 +20,12 @@ const User = sequelize.define('User', {
     allowNull: false,
     defaultValue: 'User',
   },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 }, {
-  timestamps: true, // Mengaktifkan createdAt dan updatedAt
+  timestamps: false, // Mengaktifkan createdAt dan updatedAt
 });
 
 module.exports = User;

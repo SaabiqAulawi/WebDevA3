@@ -16,7 +16,6 @@ import SearchResults from './pages/SearchResults';
 import Users from './pages/Users';
 import './styles.css';
 
-
 function LayoutWithSidebar({ children }) {
     const location = useLocation();
 
@@ -31,14 +30,14 @@ function LayoutWithSidebar({ children }) {
 
     const shouldHideSidebar = hideSidebarOn.some(path => 
         location.pathname === path || location.pathname.startsWith(path + '/')
-      );
+    );
 
     return (
         <div className={`App ${shouldHideSidebar ? 'no-sidebar' : ''}`}>
             {/* Render Sidebar hanya jika tidak disembunyikan */}
             {!shouldHideSidebar && <Sidebar />}
             <div className="content">{children}</div>
-            <Footer />
+            <Footer /> {/* Footer hanya di-render sekali di sini */}
         </div>
     );
 }
@@ -46,108 +45,105 @@ function LayoutWithSidebar({ children }) {
 function App() {
     return (
         <Router>
-            <div className="App">
-                    <Routes>
-                        <Route
-                            path="/"
-                            element={
-                                <LayoutWithSidebar>
-                                    <HomePage />
-                                </LayoutWithSidebar>
-                            }
-                        />
-                        <Route
-                            path="/login"
-                            element={
-                                <LayoutWithSidebar>
-                                    <Login />
-                                </LayoutWithSidebar>
-                            }
-                        />
-                        <Route
-                            path="/registration"
-                            element={
-                                <LayoutWithSidebar>
-                                    <Registration />
-                                </LayoutWithSidebar>
-                            }
-                        />
-                        <Route
-                            path="/drama/:dramaId"
-                            element={
-                                <LayoutWithSidebar>
-                                    <MovieDetail />
-                                </LayoutWithSidebar>
-                            }
-                        />
-                        <Route
-                            path="/search/:searchTerm"
-                            element={
-                                <LayoutWithSidebar>
-                                    <SearchResults />
-                                </LayoutWithSidebar>
-                            }
-                        />
-                        {/* Routes for pages where sidebar should be visible */}
-                        <Route
-                            path="/countries"
-                            element={
-                                <LayoutWithSidebar>
-                                    <Countries />
-                                </LayoutWithSidebar>
-                            }
-                        />
-                        <Route
-                            path="/genres"
-                            element={
-                                <LayoutWithSidebar>
-                                    <Genres />
-                                </LayoutWithSidebar>
-                            }
-                        />
-                        <Route
-                            path="/actors"
-                            element={
-                                <LayoutWithSidebar>
-                                    <Actors />
-                                </LayoutWithSidebar>
-                            }
-                        />
-                        <Route
-                            path="/comments"
-                            element={
-                                <LayoutWithSidebar>
-                                    <Comments />
-                                </LayoutWithSidebar>
-                            }
-                        />
-                        <Route
-                            path="/input-drama"
-                            element={
-                                <LayoutWithSidebar>
-                                    <DramaInput />
-                                </LayoutWithSidebar>
-                            }
-                        />
-                        <Route
-                            path="/approved-drama"
-                            element={
-                                <LayoutWithSidebar>
-                                    <DramaApproved />
-                                </LayoutWithSidebar>
-                            }
-                        />
-                        <Route
-                            path="/users"
-                            element={
-                                <LayoutWithSidebar>
-                                    <Users />
-                                </LayoutWithSidebar>
-                            }
-                        />
-                    </Routes>
-                <Footer />
-            </div>
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        <LayoutWithSidebar>
+                            <HomePage />
+                        </LayoutWithSidebar>
+                    }
+                />
+                <Route
+                    path="/login"
+                    element={
+                        <LayoutWithSidebar>
+                            <Login />
+                        </LayoutWithSidebar>
+                    }
+                />
+                <Route
+                    path="/registration"
+                    element={
+                        <LayoutWithSidebar>
+                            <Registration />
+                        </LayoutWithSidebar>
+                    }
+                />
+                <Route
+                    path="/drama/:dramaId"
+                    element={
+                        <LayoutWithSidebar>
+                            <MovieDetail />
+                        </LayoutWithSidebar>
+                    }
+                />
+                <Route
+                    path="/search/:searchTerm"
+                    element={
+                        <LayoutWithSidebar>
+                            <SearchResults />
+                        </LayoutWithSidebar>
+                    }
+                />
+                {/* Routes for pages where sidebar should be visible */}
+                <Route
+                    path="/countries"
+                    element={
+                        <LayoutWithSidebar>
+                            <Countries />
+                        </LayoutWithSidebar>
+                    }
+                />
+                <Route
+                    path="/genres"
+                    element={
+                        <LayoutWithSidebar>
+                            <Genres />
+                        </LayoutWithSidebar>
+                    }
+                />
+                <Route
+                    path="/actors"
+                    element={
+                        <LayoutWithSidebar>
+                            <Actors />
+                        </LayoutWithSidebar>
+                    }
+                />
+                <Route
+                    path="/comments"
+                    element={
+                        <LayoutWithSidebar>
+                            <Comments />
+                        </LayoutWithSidebar>
+                    }
+                />
+                <Route
+                    path="/input-drama"
+                    element={
+                        <LayoutWithSidebar>
+                            <DramaInput />
+                        </LayoutWithSidebar>
+                    }
+                />
+                <Route
+                    path="/approved-drama"
+                    element={
+                        <LayoutWithSidebar>
+                            <DramaApproved />
+                        </LayoutWithSidebar>
+                    }
+                />
+                <Route
+                    path="/users"
+                    element={
+                        <LayoutWithSidebar>
+                            <Users />
+                        </LayoutWithSidebar>
+                    }
+                />
+            </Routes>
         </Router>
     );
 }
