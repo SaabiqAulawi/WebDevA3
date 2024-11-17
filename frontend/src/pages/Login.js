@@ -19,9 +19,9 @@ const Login = () => {
         const data = await response.json();
 
         if (data.role === 'Admin') {
-          navigate('/cms'); // Arahkan ke halaman CMS jika Admin
+          navigate('/countries'); // Arahkan ke halaman CMS jika Admin
         } else {
-          navigate('/home'); // Arahkan ke halaman home jika User biasa
+          navigate('/'); // Arahkan ke halaman home jika User biasa
         }
       }
     };
