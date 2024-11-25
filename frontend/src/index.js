@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { ClerkProvider } from '@clerk/clerk-react';
-
-const clerkFrontendApi = process.env.REACT_APP_CLERK_FRONTEND_API;
+import { BrowserRouter } from "react-router-dom";
+import "./index.css";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <ClerkProvider frontendApi={clerkFrontendApi}>
-    <App />
-  </ClerkProvider>
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
 );

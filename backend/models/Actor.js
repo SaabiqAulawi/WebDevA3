@@ -1,6 +1,6 @@
 // models/Actor.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const {sequelize} = require('../config/database');
 const Country = require('./Country'); // Pastikan model Country diimpor
 
 const Actor = sequelize.define('Actor', {
