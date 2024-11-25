@@ -1,31 +1,32 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
-
-const User = sequelize.define('User', {
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true, // Menjadikan email unik untuk mencegah duplikasi
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  role: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    defaultValue: 'User',
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-}, {
-  timestamps: false, // Mengaktifkan createdAt dan updatedAt
-});
-
-module.exports = User;
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class User extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  }
+  User.init({
+    email: DataTypes.STRING,
+    password: DataTypes.STRING,
+    name: DataTypes.STRING,
+    lastLogin: DataTypes.DATE,
+    isVerified: DataTypes.BOOLEAN,
+    resetPasswordToken: DataTypes.STRING,
+    resetPasswordExpiresAt: DataTypes.DATE,
+    verificationToken: DataTypes.STRING,
+    verificationTokenExpiresAt: DataTypes.DATE,
+    role: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'User',
+  });
+  return User;
+};
